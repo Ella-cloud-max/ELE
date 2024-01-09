@@ -1,5 +1,6 @@
 # u(p), d(own), l(eft), r(ight)
 
+
 class Protein():
     def __init__(self, type, previous):
         self.type = type
