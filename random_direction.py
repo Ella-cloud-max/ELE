@@ -52,7 +52,7 @@ class Amino():
                 self.move_amino()
 
             else:
-                check_previous = check_previous.previous_protein
+                check_previous = check_previous.previous_amino
         
 # returns list of input file containing protein (each amino is an item in list)
 def get_protein(file):
@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
     protein_list = get_protein(f"proteins/{sys.argv[1]}")
 
-    output_file = open(f"output/{sys.argv[2]}", "a")
+    output_file = open(f"output/{sys.argv[2]}", "w")
     output_file.write("amino,fold\n")
 
     make_structure(protein_list, output_file)
