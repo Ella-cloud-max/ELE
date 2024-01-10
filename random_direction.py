@@ -1,83 +1,83 @@
 import random
+import sys
 
 # "1" betekent een positieve stap in de eerste dimensie (X-as richting).
 # "-1" betekent een negatieve stap in de eerste dimensie (X-as richting).
 # "2" betekent een positieve stap in de tweede dimensie (Y-as richting).
 # "-2" betekent een negatieve stap in de tweede dimensie (Y-as richting).
 
-output_file = open("output/output_random.csv", "a")
-
-class Protein():
+class Amino():
     def __init__(self, type, previous):
-        self.type = type                      # H of P
+        self.type = type                      # H or P
         self.coordinates = [0, 0]
-        self.direction = 0
-        self.previous_protein = previous
+        self.direction = 0                    # -2, -1, 1 or 2 (see explanation above)
+        self.previous_amino = previous      # variable holds class of previous amino
 
     def __repr__(self):
-        return f"{self.type}, {self.coordinates}, {self.direction}, {self.previous_protein}"
+        return f"{self.type}, {self.coordinates}, {self.direction}, {self.previous_amino}"
 
-    def move_protein(self):
-        if self.previous_protein == None:
+    # changes coordinates of amino based on direction which is chosen at random
+    def move_amino(self):
+
+        # direction of {-2, -1, 1, 2} is chosen at random
+        self.direction = random.randint(-2, 2)
+        while self.direction == 0:
+            self.direction = random.randint(-2, 2)
+
+        # this is for very first amino, as None-object does not have coordinates.
+        if self.previous_amino == None:
             if abs(self.direction) == 1:
                 self.coordinates = [self.direction, 0]
             elif abs(self.direction) == 2:
                 self.coordinates = [0, (self.direction / 2)]
+
+        # for any amino other than first, coordinates are coordinates of previous amino plus movement in direction
         else:
             if abs(self.direction) == 1:
-                # print(self.previous_protein.coordinates)
-                self.coordinates = [self.previous_protein.coordinates[0] + self.direction, self.previous_protein.coordinates[1]]
+                self.coordinates = [self.previous_amino.coordinates[0] + self.direction, self.previous_amino.coordinates[1]]
             elif abs(self.direction) == 2:
-                # print(self.previous_protein.coordinates)
-                self.coordinates = [self.previous_protein.coordinates[0], self.previous_protein.coordinates[1] + (self.direction / 2)]
-        
-        self.check_protein()
+                self.coordinates = [self.previous_amino.coordinates[0], self.previous_amino.coordinates[1] + (self.direction / 2)]
 
-    def check_protein(self):
-        check_previous = self.previous_protein
+        self.check_coordinates()
+
+        return self
+
+    # checks whether coordinates of amino are not same as any previous amino's
+    def check_coordinates(self):
+        check_previous = self.previous_amino
         while check_previous != None:
+
+            # if a previous amino is placed on coordinates, restart function move_amino (and change direction to change coordinates)
             if check_previous.coordinates == self.coordinates:
-                one_protein(self)
+                self.move_amino()
+
             else:
                 check_previous = check_previous.previous_protein
         
-
+# returns list of input file containing protein (each amino is an item in list)
 def get_protein(file):
-    protein = [*str(*open(file))]
-    return protein
+    return [*str(*open(file))]
 
-def one_protein(current_protein):
-    current_protein.direction = random.randint(-2, 2)
-    while current_protein.direction == 0:
-        current_protein.direction = random.randint(-2, 2)
-
-    # print(current_protein.direction)
-    current_protein.move_protein()
-    # print(current_protein.coordinates)
-
-
-    return current_protein
-
-def build(proteins_list):
-    previous_protein = None
-    for i in range(len(proteins_list)):
-        current_protein = Protein(proteins_list[i], previous_protein)
+# goes through list of protein and moves each amino based on previous amino
+def make_structure(protein_list, output_file):
+    previous_amino = None
+    for i in range(len(protein_list)):
+        current_amino = Amino(protein_list[i], previous_amino)
         
-        if i == len(proteins_list) - 1:
-            output_file.write(f"{current_protein.type}, {current_protein.direction}\n")
+        if i == len(protein_list) - 1:
+            output_file.write(f"{current_amino.type}, {current_amino.direction}\n")
             return
-        previous_protein = one_protein(current_protein)
-        output_file.write(f"{previous_protein.type}, {previous_protein.direction}\n")
-
         
-
+        previous_amino = current_amino.move_amino()
+        output_file.write(f"{previous_amino.type}, {previous_amino.direction}\n")
 
 if __name__ == "__main__":
 
-    filename = "proteinen/protein4.csv"
-    proteins_list = get_protein(filename)
+    protein_list = get_protein(f"proteins/{sys.argv[1]}")
+
+    output_file = open(f"output/{sys.argv[2]}", "a")
     output_file.write("amino,fold\n")
 
-    build(proteins_list)
+    make_structure(protein_list, output_file)
 
     output_file.close()
