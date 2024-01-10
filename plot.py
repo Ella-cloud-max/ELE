@@ -34,28 +34,36 @@ def add_coordinates(output):
                 line.append([new_x, old[2][1]])
     return output
 
-def x_as(output):
+def coord_line(output):
     x_as = []
-    for line in output:
-        x_as.append(line[2][0])
-    return x_as
-
-def y_as(output):
     y_as = []
     for line in output:
+        x_as.append(line[2][0])
         y_as.append(line[2][1])
-    return y_as
-        
+    return x_as, y_as
 
+def coord_types(output, type_letter):
+    x_as = []
+    y_as = []
+    for line in output:
+        if line[0] == type_letter:
+            x_as.append(line[2][0])
+            y_as.append(line[2][1])
+    return x_as, y_as
+        
 if __name__ == "__main__":
     filename = sys.argv[1]
     filepath = "output/" + filename
     output = get_output(filepath)
     output = add_coordinates(output)
-    x_as = x_as(output)
-    y_as = y_as(output)
+    x_as, y_as = coord_line(output)
+    x_as_H, y_as_H = coord_types(output, "H")
+    x_as_P, y_as_P = coord_types(output, "P")
     plt.grid(False)
     plt.axis('off')
     location = 0
-    plt.plot(x_as, y_as, marker = 'H')
+    plt.plot(x_as, y_as, c = "black")
+    plt.scatter(x_as_H, y_as_H, c = "red", zorder = 3, label = "H")
+    plt.scatter(x_as_P, y_as_P, c = "blue", zorder = 3, label = "P")
+    plt.legend()
     plt.show()
