@@ -1,3 +1,5 @@
+# heeft problemen met opgesloten aminos
+
 import random
 import sys
 
@@ -66,10 +68,24 @@ def make_structure(protein_list, output_file):
         
         if i == len(protein_list) - 1:
             output_file.write(f"{current_amino.type}, {current_amino.direction}\n")
-            return
+            return current_amino
         
         previous_amino = current_amino.move_amino()
         output_file.write(f"{previous_amino.type}, {previous_amino.direction}\n")
+
+def count_score(amino):
+    score = 0
+    while amino != None:
+        print(amino)
+        if amino.type == "H":
+            check_previous = amino.previous_amino
+            while check_previous != None:
+                print(check_previous)
+                if ((check_previous.coordinates[0] - amino.coordinates[0]) + (check_previous.coordinates[1] - amino.coordinates[1])) == 1 and check_previous != amino.previous_amino:
+                    score -= 1
+                check_previous = check_previous.previous_amino
+        amino = amino.previous_amino
+    return score
 
 if __name__ == "__main__":
 
@@ -78,6 +94,8 @@ if __name__ == "__main__":
     output_file = open(f"output/{sys.argv[2]}", "w")
     output_file.write("amino,fold\n")
 
-    make_structure(protein_list, output_file)
+    final_amino = make_structure(protein_list, output_file)
+
+    print(count_score(final_amino))
 
     output_file.close()
