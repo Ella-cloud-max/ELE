@@ -44,14 +44,22 @@ def add_proteins(vis, output):
             now_line += 2
     return vis 
 
-def print_nice(square):
-    size = len(square)
-    empty = list(" " * size)
+def delete_empty(square):
+    empty = list(" " * len(square))
+    nice_square = square.copy()
     for line in square:
-        if line != empty:
-            for item in line:
-                print(item, end = "")
-            print()
+        if line == empty:
+            nice_square.remove(line)
+
+    return nice_square
+
+
+def print_nice(square):
+    square = delete_empty(square)
+    for line in square:
+        for item in line:
+            print(item, end=" ")
+        print()
 
 def print_folded_protein(output):
     vis = empty_square(len(output) * 2 * 2)
@@ -62,3 +70,4 @@ if __name__ == "__main__":
     filepath = "output/" + filename
     output = get_output(filepath)
     print_folded_protein(output)
+    
