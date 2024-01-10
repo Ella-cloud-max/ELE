@@ -15,6 +15,7 @@ def get_output(file):
 
 def empty_square(size):
     square = []
+    size += 2 #nu gedaan omdat er anders problemen zijn met add_stars index out of reach
     for x in range(0, size):
         square.append(list(" " * size))
     return square
@@ -50,7 +51,6 @@ def delete_empty(square):
     for line in square:
         if line == empty:
             nice_square.remove(line)
-
     return nice_square
 
 
@@ -63,7 +63,19 @@ def print_nice(square):
 
 def print_folded_protein(output):
     vis = empty_square(len(output) * 2 * 2)
-    print_nice(add_proteins(vis, output))
+    square = add_proteins(vis, output)
+    square = add_stars(square)
+    print_nice(square)
+
+def add_stars(square):
+    for index_line, line in enumerate(square):
+        for index_item, item in enumerate(line):
+            if item == "H":
+                if line[index_item + 2] == "H" and line[index_item + 1] != "-":
+                    line[index_item + 1] = "*"
+                elif square[index_line - 2][index_item] == "H" and square[index_line - 1][index_item] != "|":
+                    square[index_line - 1][index_item] = "*"
+    return square
     
 if __name__ == "__main__":
     filename = sys.argv[1]
