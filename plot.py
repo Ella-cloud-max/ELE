@@ -13,7 +13,6 @@ def get_output(file):
     return output
 
 def add_coordinates(output):
-    
     for index, line in enumerate(output):
         #line.append([0,0])
         if index == 0:
@@ -50,13 +49,19 @@ def coord_types(output, type_letter):
             x_as.append(line[2][0])
             y_as.append(line[2][1])
     return x_as, y_as
-        
+
+def coord_stars(x_as, y_as):
+    assert len(x_as) == len(y_as)
+    for index in range(len(x_as)):
+        print(index)
+
 if __name__ == "__main__":
     filename = sys.argv[1]
     filepath = "output/" + filename
     output = get_output(filepath)
     output = add_coordinates(output)
     x_as, y_as = coord_line(output)
+    coord_stars(x_as, y_as)
     x_as_H, y_as_H = coord_types(output, "H")
     x_as_P, y_as_P = coord_types(output, "P")
     plt.grid(False)
