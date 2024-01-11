@@ -39,11 +39,11 @@ def add_proteins(empty_square: list[list[str]], output: list[list[str]]) -> list
     for index, line in enumerate(output):
         direction = int(line[1])
         if direction == 1:
-            empty_square[now_line][now_col + 1] = "-" 
+            empty_square[now_line][now_col + 1] = "—" 
             empty_square[now_line][now_col + 2] = output[index+1][0]
             now_col += 2
         elif direction == -1:
-            empty_square[now_line][now_col - 1] = "-"   
+            empty_square[now_line][now_col - 1] = "—"   
             empty_square[now_line][now_col - 2] = output[index+1][0]  
             now_col -= 2
         elif direction == 2:
@@ -61,7 +61,7 @@ def add_stars(square: list[list[str]]) -> list[list[str]]:
     for index_line, line in enumerate(square):
         for index_item, item in enumerate(line):
             if item == "H":
-                if line[index_item + 2] == "H" and line[index_item + 1] != "-":
+                if line[index_item + 2] == "H" and line[index_item + 1] != "—":
                     line[index_item + 1] = "*"
                 elif square[index_line - 2][index_item] == "H" and square[index_line - 1][index_item] != "|":
                     square[index_line - 1][index_item] = "*"
