@@ -1,4 +1,3 @@
-
 from random_algorithm import randomise
 from score import count_score
 import random
