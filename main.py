@@ -19,9 +19,10 @@ def get_protein(file):
 
 # goes through list of protein and moves each amino based on previous amino
 def make_structure(protein_list, algorithm, output_file):
-    previous_amino = Amino(0, protein_list[0], [0, 0], None)
+    previous_amino = Amino(0, protein_list[0], 0, [0, 0], None)
     for i in range(1, len(protein_list)):
-        current_amino = Amino(i, protein_list[i], previous_amino.coordinates, previous_amino)
+
+        current_amino = Amino(i, protein_list[i], 0, previous_amino.coordinates, previous_amino)
 
         current_amino.move_amino(algorithm)
         output_file.write(f"{previous_amino.soort},{previous_amino.direction}\n")
