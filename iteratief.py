@@ -9,18 +9,14 @@ from amino import Amino
 from score import count_score
 from random_algorithm import randomise
 from main import get_protein
-import sys
+from import_csv import import_structure 
+import sys    
 
-def make_structure(protein_list, algorithm, output_file):
-    
 
 if __name__ == "__main__":
-    protein_list = get_protein(f"proteins/{sys.argv[1]}")
-
-    output_file = open(f"output/{sys.argv[2]}", "w")
-    output_file.write("amino,fold\n")
-
-    final_amino = make_structure(protein_list, randomise, output_file)
-
-    output_file.write(f"score,{count_score(final_amino)}")
-    output_file.close()
+    
+    amino_acids: dict = import_structure(f"output/{sys.argv[1]}")
+    last_amino_id = amino_acids.items()
+    print(last_amino_id)
+    score = count_score(last_amino_id)
+    print(score)

@@ -1,5 +1,13 @@
+from amino import Amino
 
-def count_score(amino):
+
+def count_score(amino: 'Amino') -> int:
+    """
+    Input is the last amino-acid from the chain
+    
+    pre: amino class object
+    post: returns the score as an integer
+    """
     score = 0
     while amino != None:
         if amino.soort == "H":

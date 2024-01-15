@@ -4,7 +4,7 @@
 # "-2" betekent een negatieve stap in de tweede dimensie (Y-as richting).
 
 class Amino():
-    def __init__(self, i: int, soort: str, direction: int, coordinates: list[int], previous) -> None:
+    def __init__(self, i: int, soort: str, direction: int, coordinates: list[int], previous: 'Amino') -> None:
         self.i: int = i
         self.soort: str = soort                      # H or P
         self.coordinates: list[int] = coordinates  # [n, m]
@@ -42,3 +42,9 @@ class Amino():
                 check_previous = check_previous.previous_amino
         
         return True
+
+    def Coordinates(self) -> list[int]:
+        return self.coordinates
+
+    def Direction(self) -> int:
+        return self.direction
