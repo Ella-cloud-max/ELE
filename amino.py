@@ -4,15 +4,15 @@
 # "-2" betekent een negatieve stap in de tweede dimensie (Y-as richting).
 
 class Amino():
-    def __init__(self, i: int, type: str, coordinates: list[int], previous) -> None:
+    def __init__(self, i: int, soort: str, coordinates: list[int], previous) -> None:
         self.i: int = i
-        self.type: str = type                      # H or P
+        self.soort: str = soort                      # H or P
         self.coordinates: list[int] = coordinates  # [n, m]
         self.direction: int = 0                    # -2, -1, 1 or 2 (see explanation above)
         self.previous_amino = previous        # variable holds class of previous amino
 
     def __repr__(self) -> str:
-        return f"{self.i}, {self.type}, {self.coordinates}, {self.direction}"
+        return f"{self.i}, {self.soort}, {self.coordinates}, {self.direction}"
 
     # changes coordinates of amino based on direction which is chosen at random
     def move_amino(self, algorithm):

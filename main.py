@@ -13,14 +13,14 @@ def get_protein(file):
 def make_structure(protein_list, algorithm, output_file):
     previous_amino = Amino(0, protein_list[0], [0, 0], None)
     for i in range(1, len(protein_list)):
-        current_amino = Amino(i, protein_list[i], previous_amino.coordinates,
-                              previous_amino)
+
+        current_amino = Amino(i, protein_list[i], previous_amino.coordinates, previous_amino)
 
         current_amino.move_amino(algorithm)
-        output_file.write(f"{previous_amino.type},{previous_amino.direction}\n")
+        output_file.write(f"{previous_amino.soort},{previous_amino.direction}\n")
 
         previous_amino = current_amino
-    output_file.write(f"{previous_amino.type},{previous_amino.direction}\n")
+    output_file.write(f"{previous_amino.soort},{previous_amino.direction}\n")
     return previous_amino
 
 if __name__ == "__main__":
@@ -29,8 +29,9 @@ if __name__ == "__main__":
 
     output_file = open(f"output/{sys.argv[2]}", "w")
     output_file.write("amino,fold\n")
+    for i in range(N):
+        final_amino = make_structure(protein_list, randomise, output_file)
 
-    final_amino = make_structure(protein_list, randomise, output_file)
 
     output_file.write(f"score,{count_score(final_amino)}")
     output_file.close()
