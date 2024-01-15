@@ -1,12 +1,20 @@
-# heeft problemen met opgesloten aminos
+"""
+Names: Ella, Erik, en Liesbet
+Project: Protein Pow(d)er
+"""
 
 from amino import Amino
 from score import count_score
 from random_algorithm import randomise
+from visualisation import print_folded_protein
 import sys
 
-# returns list of input file containing protein (each amino is an item in list)
+# vgm is dit overbodig,, want str(*open(file)) is ook gewoon een lijst van characters eigenlijk
 def get_protein(file):
+    """
+    input: a file with a string of the compisition (pattern of Hydrophobe and Polar) of a protein
+    output: a list of characters made from the string
+    """
     return [*str(*open(file))]
 
 # goes through list of protein and moves each amino based on previous amino
@@ -28,9 +36,21 @@ if __name__ == "__main__":
 
     output_file = open(f"output/{sys.argv[2]}", "w")
     output_file.write("amino,fold\n")
-    for i in range(N):
-        final_amino = make_structure(protein_list, randomise, output_file)
-
-
-    output_file.write(f"score,{count_score(final_amino)}")
+    final_amino = make_structure(protein_list, randomise, output_file)
+    score = count_score(final_amino)
+    output_file.write(f"score,{score}")
     output_file.close()
+
+    # N = 1000
+    # lowest_score = [0, 0]
+    # for i in range(N):
+    #     output_file = open(f"output_repetitions/output_{i}", "w")
+    #     output_file.write("amino,fold\n")
+    #     final_amino = make_structure(protein_list, randomise, output_file)
+    #     score = count_score(final_amino)
+    #     output_file.write(f"score,{score}")
+    #     output_file.close()
+    #     if score < lowest_score[1]:
+    #         lowest_score = [i, score]
+    #         print_folded_protein(f"output_repetitions/output_{i}")
+    #     output_file.close()
