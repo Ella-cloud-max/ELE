@@ -4,7 +4,7 @@ from score import count_score
 import random
 
 def greedy_and_random_direction(amino):
-    if amino.type == "P":
+    if amino.soort == "P":
         return randomise()
 
     options = {-2: 0,
