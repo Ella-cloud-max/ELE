@@ -50,24 +50,29 @@ def coord_types(output, type_letter):
             y_as.append(line[2][1])
     return x_as, y_as
 
-def coord_stars(x_as, y_as):
-    assert len(x_as) == len(y_as)
-    for index in range(len(x_as)):
-        print(index)
+def coord_stars(output):
+    for index, amino in enumerate(output):
+        if amino[0] == "H":
+            print(amino)
+            #if amino[2][0] in 
 
 if __name__ == "__main__":
     filename = sys.argv[1]
     filepath = "output/" + filename
     output = get_output(filepath)
     output = add_coordinates(output)
+    
     x_as, y_as = coord_line(output)
-    coord_stars(x_as, y_as)
     x_as_H, y_as_H = coord_types(output, "H")
+    coord_stars(output)
     x_as_P, y_as_P = coord_types(output, "P")
     plt.grid(False)
+    ax = plt.gca()
+    ax.set_aspect('equal', adjustable='box')
     plt.axis('off')
     location = 0
     plt.plot(x_as, y_as, c = "black")
+    plt.scatter(0, -0.5, c= "hotpink", marker = "H")
     plt.scatter(x_as_H, y_as_H, c = "red", zorder = 3, label = "H")
     plt.scatter(x_as_P, y_as_P, c = "blue", zorder = 3, label = "P")
     plt.legend()
