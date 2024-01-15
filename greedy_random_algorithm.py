@@ -1,11 +1,11 @@
 
-from random_algorithm import randomise_direction
+from random_algorithm import randomise
 from score import count_score
 import random
 
 def greedy_and_random_direction(amino):
     if amino.type == "P":
-        return randomise_direction()
+        return randomise()
 
     options = {-2: 0,
                -1: 0,

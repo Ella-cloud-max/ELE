@@ -4,10 +4,10 @@
 # "-2" betekent een negatieve stap in de tweede dimensie (Y-as richting).
 
 class Amino():
-    def __init__(self, i: int, type: str, previous) -> None:
+    def __init__(self, i: int, type: str, coordinates: list[int], previous) -> None:
         self.i: int = i
         self.type: str = type                      # H or P
-        self.coordinates: list[int] = [0, 0]
+        self.coordinates: list[int] = coordinates  # [n, m]
         self.direction: int = 0                    # -2, -1, 1 or 2 (see explanation above)
         self.previous_amino = previous        # variable holds class of previous amino
 
