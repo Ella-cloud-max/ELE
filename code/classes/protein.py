@@ -19,12 +19,17 @@ class Protein():
         return aminos
 
     def check_viability(self):
+        for amino in self.aminos.values():
+            print(amino.coordinates)
         check_amino = self.aminos[self.i_list[-1]]
         while check_amino != None:
+            print(check_amino)
             check_previous = check_amino.previous_amino
             while check_previous != None:
                 if check_amino.coordinates == check_previous.coordinates:
                     return False
+                check_previous = check_previous.previous_amino
+            check_amino = check_amino.previous_amino
         return True
 
     def count_score(self):
