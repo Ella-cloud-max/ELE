@@ -13,3 +13,4 @@ if __name__ == "__main__":
         random_protein = randomise.randomise(test_protein)
     
     test_protein.print_output("output_L.csv")
+

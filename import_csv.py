@@ -4,11 +4,10 @@ Created on Mon Jan 15 12:21:52 2024
 
 @author: Eric van Huizen
 """
-from amino import Amino
-from score import count_score
-from random_algorithm import randomise
 import sys
 import csv
+from code.classes.amino import Amino
+from code.classes.protein import Protein
 
 
 def import_structure(file_directory: str) -> dict:
@@ -33,7 +32,7 @@ def import_structure(file_directory: str) -> dict:
             break
         direction = int(direction)
         amino_id += 1
-        previous_direction = aminos[amino_id - 1].Direction()
+        previous_direction = aminos[amino_id - 1].direction
         if previous_direction == 0:
             coordinates = [coordinates[0] + 1, coordinates[1] + 1]
         elif abs(previous_direction) == 1:
