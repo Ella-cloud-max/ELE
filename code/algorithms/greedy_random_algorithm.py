@@ -1,4 +1,4 @@
-from random_algorithm import randomise
+from code.algorithms.randomise import randomise
 from score import count_score
 import random
 

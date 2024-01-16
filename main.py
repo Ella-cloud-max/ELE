@@ -3,9 +3,9 @@ Names: Ella, Erik, en Liesbet
 Project: Protein Pow(d)er
 """
 
-from amino import Amino
+from code.classes.amino import Amino
 from score import count_score
-from random_algorithm import randomise
+from code.algorithms.randomise import randomise
 from visualisation import print_folded_protein
 import sys
 

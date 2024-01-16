@@ -5,9 +5,9 @@ Created on Mon Jan 15 11:21:32 2024
 @author: Eric van Huizen
 """
 
-from amino import Amino
+from code.classes.amino import Amino
 from score import count_score
-from random_algorithm import randomise
+from code.algorithms.randomise import randomise
 from main import get_protein
 import sys
 
