@@ -26,3 +26,6 @@ if __name__ == "__main__":
 
     while test_protein.check_viability() == False:
         random_protein = randomise.randomise(test_protein)
+
+    test_protein.print_output("output_L.csv")
+
