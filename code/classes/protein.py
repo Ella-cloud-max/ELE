@@ -1,17 +1,19 @@
 from .amino import Amino
 import csv
+from typing import Any, Union
+
 
 class Protein():
-    def __init__(self, input_file):
-        self.i_list = []
+    def __init__(self, input_file: str) -> None:
+        self.i_list: list[int] = []
         self.aminos = self.make_aminos(input_file)
         self.score = 0
-    
-    def make_aminos(self, input_file):
+
+    def make_aminos(self, input_file: str) -> dict[int, Any]:
+        """ Add aminos to a protein """
         if input_file[:6] == "output":
             return self.import_structure(input_file)
         aminos = {}
-
         structure = [*str(*open(input_file))]
         
         aminos[0] = Amino(0, structure[0], 0, [0, 0], None)
@@ -59,10 +61,17 @@ class Protein():
                                   aminos[amino_id - 1])
         file.close()
         return aminos
-
-    def check_viability(self):
+    
+    def get_empty_amino(self) -> Any:
+        """ Get the first amino that does not have coordinates yet""" 
         for amino in self.aminos.values():
-            print(amino.coordinates)
+            if amino.coordinates == [0, 0] and amino.i != 0:
+                return amino
+
+        return None
+
+    def check_viability(self) -> bool:
+        """ Check that no aminos have the same coordinates """
         check_amino = self.aminos[self.i_list[-1]]
         while check_amino != None:
             check_previous = check_amino.previous_amino
@@ -73,7 +82,12 @@ class Protein():
             check_amino = check_amino.previous_amino
         return True
 
-    def count_score(self):
+    def count_score(self) -> Union[bool, int]:
+        """ Count and update the score of the protein """
+        if not self.check_viability():
+            return False
+        
+        self.score = 0
         count_amino = self.aminos[self.i_list[-1]]
         while count_amino != None:
             if count_amino.soort == "H":
@@ -85,8 +99,9 @@ class Protein():
             count_amino = count_amino.previous_amino
         return self.score
 
-    def print_output(self, output_file):
-        output_file = open(f"output/{output_file}", "w")
+    def print_output(self, output_file_name: str) -> None:
+        """ Print the output of a protein to a file"""
+        output_file = open(f"output/{output_file_name}", "w")
         output_file.write("amino,fold\n")
         for amino in self.aminos.values():
             output_file.write(f"{amino.soort},{amino.direction}\n")
