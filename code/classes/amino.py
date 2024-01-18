@@ -6,12 +6,13 @@ from typing import Any
 # "-2" betekent een negatieve stap in de tweede dimensie (Y-as richting).
 
 class Amino():
-    def __init__(self, i: int, soort: str, direction: int, coordinates: list[int], previous: Any) -> None:
+    def __init__(self, i: int, soort: str, direction: int, coordinates: tuple[int], previous: Any) -> None:
         self.i: int = i
         self.soort: str = soort                      # H or P
         self.direction: int = direction                    # -2, -1, 1 or 2 (see explanation above)
-        self.coordinates: list[int] = coordinates    # [n, m]
-        self.previous_amino = previous               # variable holds class of previous amino
+        self.coordinates: tuple[int] = coordinates    # [n, m]
+        self.previous_amino = previous             # variable holds class of previous amino
+        self.next_amino: Any = None
 
     def __repr__(self) -> str:
         return f"{self.i}, {self.soort}, {self.direction}, {self.coordinates}, previous:{self.previous_amino}"
@@ -22,9 +23,9 @@ class Amino():
             return
 
         if abs(self.previous_amino.direction) == 1:
-            self.coordinates = [self.previous_amino.coordinates[0] + self.previous_amino.direction, self.previous_amino.coordinates[1]]
+            self.coordinates = (self.previous_amino.coordinates[0] + self.previous_amino.direction, self.previous_amino.coordinates[1])
         elif abs(self.previous_amino.direction) == 2:
-            self.coordinates = [self.previous_amino.coordinates[0], self.previous_amino.coordinates[1] + (int(self.previous_amino.direction / 2))]
+            self.coordinates = (self.previous_amino.coordinates[0], self.previous_amino.coordinates[1] + (int(self.previous_amino.direction / 2)))
 
 
     def get_possibilities(self) -> list[int]:
@@ -39,12 +40,13 @@ class Amino():
         available_options = set([-2, -1, 1, 2])
         unavailable_options = set()
         for i in available_options:
-            if abs(i) == 1 and [previous_coordinates[0] + i, previous_coordinates[1]] in unsave_coordinates:
+            if abs(i) == 1 and (previous_coordinates[0] + i, previous_coordinates[1]) in unsave_coordinates:
                 unavailable_options.add(i)
-            elif abs(i) == 2 and [self.previous_amino.coordinates[0], self.previous_amino.coordinates[1] + (i/2)] in unsave_coordinates:
+            elif abs(i) == 2 and (self.previous_amino.coordinates[0], self.previous_amino.coordinates[1] + (i/2)) in unsave_coordinates:
                 unavailable_options.add(i)
         options = list(available_options - unavailable_options)
         return options
+
     # # checks whether coordinates of amino are not same as any previous amino's
     # def check_coordinates(self, algorithm) -> bool:
     #     check_previous = self.previous_amino
