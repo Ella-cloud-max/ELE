@@ -4,9 +4,8 @@ Created on Mon Jan 15 12:21:52 2024
 
 @author: Eric van Huizen
 """
-from amino import Amino
-from score import count_score
-from random_algorithm import randomise
+from code.classes.amino import Amino
+from randomise import randomise
 import sys
 import csv
 

@@ -6,8 +6,8 @@ Created on Mon Jan 15 11:21:32 2024
 """
 
 from code.classes.amino import Amino
-from score import count_score
 from code.algorithms.randomise import randomise
+from import_csv import import_structure
 from main import get_protein
 from import_csv import import_structure 
 import sys    
