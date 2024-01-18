@@ -1,10 +1,10 @@
-# USE: python3 visualisation.py example_output.csv
+# USE from main folder: python3 code/visualisation/visualisation.py example_output.csv
 
 import csv
 import sys
 
 def get_output(file: str) -> list[list[str]]:
-    ''' Read the amino and directions from the file '''
+    """ Read the amino and directions from the file """
     output = []
     with open(file) as f:
         reader = csv.reader(f)
@@ -14,7 +14,7 @@ def get_output(file: str) -> list[list[str]]:
     return output
 
 def get_stability(file: str) -> str:
-    ''' Read the stability from the file '''
+    """ Read the stability from the file """
     with open(file) as f:
         reader = csv.reader(f)
         for line in reader:
@@ -23,7 +23,7 @@ def get_stability(file: str) -> str:
     return "?"
 
 def create_empty_square(size: int) -> list[list[str]]:
-    ''' Create an empty square big enough for the protein '''
+    """ Create an empty square big enough for the protein """
     square = []
     size += 2 #nu gedaan omdat er anders problemen zijn met add_stars index out of reach
     for x in range(0, size):
@@ -31,7 +31,7 @@ def create_empty_square(size: int) -> list[list[str]]:
     return square
 
 def add_proteins(empty_square: list[list[str]], output: list[list[str]]) -> list[list[str]]:
-    ''' Add the proteins and connections into the empty square '''
+    """ Add the proteins and connections into the empty square """
     mid = len(output) * 2
     empty_square[mid][mid] = output[0][0]
     now_line = mid
@@ -57,18 +57,18 @@ def add_proteins(empty_square: list[list[str]], output: list[list[str]]) -> list
     return empty_square 
 
 def add_stars(square: list[list[str]]) -> list[list[str]]:
-    ''' Add stars into the places there is a H-bond '''
+    """ Add stars into the places there is a H-bond """
     for index_line, line in enumerate(square):
         for index_item, item in enumerate(line):
             if item == "H":
                 if line[index_item + 2] == "H" and line[index_item + 1] != "—":
                     line[index_item + 1] = "*"
-                elif square[index_line - 2][index_item] == "H" and square[index_line - 1][index_item] != "|":
+                if square[index_line - 2][index_item] == "H" and square[index_line - 1][index_item] != "|":
                     square[index_line - 1][index_item] = "*"
     return square
 
 def delete_empty(square: list[list[str]]) -> list[list[str]]:
-    ''' Delete the empty lines and columns from the square '''
+    """ Delete the empty lines and columns from the square """
     empty_line = list(" " * len(square))
     nice_square = square.copy()
     for line in square:
@@ -91,7 +91,7 @@ def delete_empty(square: list[list[str]]) -> list[list[str]]:
     return nice_square
 
 def count_stars(square: list[list[str]]) -> int:
-    ''' Count the number of stars in the square '''
+    """ Count the number of stars in the square """
     stars = 0
     for line in square:
         for item in line:
@@ -100,14 +100,14 @@ def count_stars(square: list[list[str]]) -> int:
     return stars
 
 def fill_square(empty_square: list[list[str]], output: list[list[str]]) -> list[list[str]]:
-    ''' Fill the empty square with the proteins, stars and delete the empty lines '''
+    """ Fill the empty square with the proteins, stars and delete the empty lines """
     protein_square = add_proteins(empty_square, output)
     complete_square = add_stars(protein_square)
     pretty_square = delete_empty(complete_square)
     return pretty_square
 
 def print_folded_protein(filepath: str) -> None:
-    ''' Print the folded protein, the stability score, and the expected stability '''
+    """ Print the folded protein, the stability score, and the expected stability """
     output = get_output(filepath)   #get list of amino and directions
     empty_square = create_empty_square(len(output) * 2 * 2)
     square = fill_square(empty_square, output) # fill the square with the amino and stars
