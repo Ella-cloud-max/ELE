@@ -9,7 +9,7 @@ def get_output(file: str) -> list[list[str]]:
     with open(file) as f:
         reader = csv.reader(f)
         for line in reader:
-            if line[0] == "H" or line[0] == "P":
+            if line[0] == "H" or line[0] == "P" or line[0] == "C":
                 output.append(line)
     return output
 
@@ -60,11 +60,28 @@ def add_stars(square: list[list[str]]) -> list[list[str]]:
     """ Add stars into the places there is a H-bond """
     for index_line, line in enumerate(square):
         for index_item, item in enumerate(line):
-            if item == "H":
-                if line[index_item + 2] == "H" and line[index_item + 1] != "—":
+            if item == "H" or item == "C":
+                if (line[index_item + 2] == "H") \
+                    and line[index_item + 1] != "—":
                     line[index_item + 1] = "*"
-                if square[index_line - 2][index_item] == "H" and square[index_line - 1][index_item] != "|":
+                if (line[index_item - 2] == "H") \
+                    and line[index_item - 1] != "—":
+                    line[index_item - 1] = "*"
+                
+                if (square[index_line + 2][index_item] == "H") \
+                    and square[index_line + 1][index_item] != "|":
+                    square[index_line + 1][index_item] = "*"
+                if (square[index_line - 2][index_item] == "H") \
+                    and square[index_line - 1][index_item] != "|":
                     square[index_line - 1][index_item] = "*"
+
+            if item == "C":
+                if (line[index_item + 2] == "C") \
+                    and line[index_item + 1] != "—":
+                    line[index_item + 1] = "+"
+                if (square[index_line - 2][index_item] == "C") \
+                    and square[index_line - 1][index_item] != "|":
+                    square[index_line - 1][index_item] = "+"
     return square
 
 def delete_empty(square: list[list[str]]) -> list[list[str]]:
@@ -97,6 +114,8 @@ def count_stars(square: list[list[str]]) -> int:
         for item in line:
             if item == "*":
                 stars -= 1
+            if item == "+":
+                stars -= 5
     return stars
 
 def fill_square(empty_square: list[list[str]], output: list[list[str]]) -> list[list[str]]:
@@ -117,7 +136,10 @@ def print_folded_protein(filepath: str) -> None:
         print()
     print(f"The counted stability is {count_stars(square)}") # print the amount of stars in the square
     print(f"The stability from the file is {get_stability(filepath)}") # print the amount of stars there should be according to the file
+    if count_stars(square) != int(get_stability(filepath)):
 
+        print("WRONG")
+    
 if __name__ == "__main__":
     filename = sys.argv[1]
     filepath = "output/" + filename

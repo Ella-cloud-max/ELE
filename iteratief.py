@@ -45,11 +45,11 @@ def mutate_structure(amino_id, protein, direction):
 
 def loop(protein):
     Zc = protein.count_score()
-    T = 0.2 * 30
+    T = 0.2 * 10
     iterate_counter = 0
     current_protein = copy.deepcopy(protein)
     best_solution = (current_protein, Zc)
-    while iterate_counter < 1:
+    while iterate_counter < 25:
         if iterate_counter%5 == 0 and iterate_counter != 0:
             T = T * 0.5
         id_list, coordinate_list, score_list = create_options(protein)
@@ -66,8 +66,8 @@ def loop(protein):
             if Zn <= Zc:
                 Zc = Zn
                 amino_change = current_protein.aminos[amino_id]
-                current_protein.coordinates_set.pop(amino_change.coordinates)
-                current_protein.coordinates_set.
+                current_protein.change_coordinates(amino_change.coordinates,
+                                                   new_coordinate)
                 amino_change.coordinates = new_coordinate
                 if Zc < best_solution[1]:
                     best_solution = (copy.deepcopy(current_protein), Zc)

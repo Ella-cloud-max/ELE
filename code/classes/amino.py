@@ -15,7 +15,10 @@ class Amino():
         self.next_amino: Any = None
 
     def __repr__(self) -> str:
-        return f"{self.i}, {self.soort}, {self.direction}, {self.coordinates}, previous:{self.previous_amino}"
+        return f"{self.i}, {self.soort}, {self.direction}, {self.coordinates}"
+
+    def change_direction(self, direction):
+        self.direction = direction
 
     def change_coordinates(self) -> None:
         """ Change coordinates of amino based on the direction of the previous amino """

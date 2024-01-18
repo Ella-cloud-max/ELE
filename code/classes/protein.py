@@ -98,12 +98,26 @@ class Protein():
         self.score = 0
         count_amino = self.aminos[self.i_list[-1]]
         while count_amino != None:
-            if count_amino.soort == "H":
+            # Check if there are H*H or H*C bonds (also does -1 if there is a C*C bond)
+            if count_amino.soort == "H" or count_amino.soort == "C":
                 check_previous = count_amino.previous_amino
                 while check_previous != None:
-                    if (abs(check_previous.coordinates[0] - count_amino.coordinates[0]) + abs(check_previous.coordinates[1] - count_amino.coordinates[1])) == 1 and check_previous.soort == "H" and abs(check_previous.i - count_amino.i) != 1:
+                    if (abs(check_previous.coordinates[0] - count_amino.coordinates[0]) + abs(check_previous.coordinates[1] - count_amino.coordinates[1])) == 1 \
+                        and (check_previous.soort == "H" or check_previous.soort == "C") \
+                        and abs(check_previous.i - count_amino.i) != 1:
                         self.score -= 1
                     check_previous = check_previous.previous_amino
+            
+            # Check if there are C*C bonds (minus an extra -4)
+            if count_amino.soort == "C":
+                check_previous = count_amino.previous_amino
+                while check_previous != None:
+                    if (abs(check_previous.coordinates[0] - count_amino.coordinates[0]) + abs(check_previous.coordinates[1] - count_amino.coordinates[1])) == 1 \
+                        and check_previous.soort == "C" \
+                        and abs(check_previous.i - count_amino.i) != 1:
+                        self.score -= 4
+                    check_previous = check_previous.previous_amino
+            
             count_amino = count_amino.previous_amino
         return self.score
 
@@ -117,5 +131,5 @@ class Protein():
         output_file.close()
 
     def change_coordinates(self, old_coordinates, new_coordinates) -> None:
-        self.coordinates_set.pop(old_coordinates)
+        self.coordinates_set.remove(old_coordinates)
         self.coordinates_set.add(new_coordinates)
