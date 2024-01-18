@@ -10,9 +10,12 @@ class Amino():
         self.direction: int = direction                    # -2, -1, 1 or 2 (see explanation above)
         self.coordinates: list[int] = coordinates    # [n, m]
         self.previous_amino = previous               # variable holds class of previous amino
-
+    
     def __repr__(self) -> str:
-        return f"{self.i}, {self.soort}, {self.direction}, {self.coordinates}, previous:{self.previous_amino}"
+        return f"{self.i}, {self.soort}, {self.direction}, {self.coordinates}"
+
+    def change_direction(self, direction):
+        self.direction = direction
 
     # changes coordinates of amino based on direction which is chosen at random
     def change_coordinates(self) -> None:

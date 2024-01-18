@@ -5,10 +5,9 @@ class Protein():
         self.i_list = []
         self.aminos = self.make_aminos(input_file)
         self.score = 0
-    
+
     def make_aminos(self, input_file):
         aminos = {}
-
         structure = [*str(*open(input_file))]
         
         aminos[0] = Amino(0, structure[0], 0, [0, 0], None)
@@ -19,11 +18,8 @@ class Protein():
         return aminos
 
     def check_viability(self):
-        for amino in self.aminos.values():
-            print(amino.coordinates)
         check_amino = self.aminos[self.i_list[-1]]
         while check_amino != None:
-            print(check_amino)
             check_previous = check_amino.previous_amino
             while check_previous != None:
                 if check_amino.coordinates == check_previous.coordinates:
