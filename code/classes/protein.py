@@ -1,4 +1,5 @@
 from .amino import Amino
+import csv
 
 class Protein():
     def __init__(self, input_file):
@@ -7,6 +8,8 @@ class Protein():
         self.score = 0
     
     def make_aminos(self, input_file):
+        if input_file[:6] == "output":
+            return self.import_structure(input_file)
         aminos = {}
 
         structure = [*str(*open(input_file))]
@@ -18,12 +21,50 @@ class Protein():
             self.i_list.append(i)
         return aminos
 
+    def import_structure(self, file_directory: str) -> dict:
+        """
+        Imports the amino acids from a file that contains a known solution
+
+        pre: string which is the directory to the file
+        post: outputs a dictionary containing the amino-acids
+        """
+
+        file = open(file_directory, "r")
+        aminos: dict = {}
+        reader = csv.reader(file)
+        next(reader)    # skip header
+        soort, direction = next(reader) # first line
+        direction = int(direction)
+        amino_id = 0
+        coordinates = [0, 0]
+        aminos[amino_id] = Amino(amino_id, soort, direction, coordinates, None)
+        self.i_list.append(amino_id)
+        for soort, direction in reader:
+            if soort == "score":
+                break
+            direction = int(direction)
+            amino_id += 1
+            previous_direction = aminos[amino_id - 1].direction
+            if previous_direction == 0:
+                coordinates = [coordinates[0] + 1, coordinates[1] + 1]
+            elif abs(previous_direction) == 1:
+                coordinates = [coordinates[0] + previous_direction, coordinates[1]]
+            else:
+                if previous_direction > 0:
+                    coordinates = [coordinates[0], coordinates[1] + 1]
+                else:
+                    coordinates = [coordinates[0], coordinates[1] - 1]
+            self.i_list.append(amino_id)
+            aminos[amino_id] = Amino(amino_id, soort, direction, coordinates,
+                                  aminos[amino_id - 1])
+        file.close()
+        return aminos
+
     def check_viability(self):
         for amino in self.aminos.values():
             print(amino.coordinates)
         check_amino = self.aminos[self.i_list[-1]]
         while check_amino != None:
-            print(check_amino)
             check_previous = check_amino.previous_amino
             while check_previous != None:
                 if check_amino.coordinates == check_previous.coordinates:

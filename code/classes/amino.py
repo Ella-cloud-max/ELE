@@ -25,6 +25,7 @@ class Amino():
         elif abs(self.previous_amino.direction) == 2:
             self.coordinates = [self.previous_amino.coordinates[0], self.previous_amino.coordinates[1] + (self.previous_amino.direction / 2)]
 
+
     # # checks whether coordinates of amino are not same as any previous amino's
     # def check_coordinates(self, algorithm) -> bool:
     #     check_previous = self.previous_amino
