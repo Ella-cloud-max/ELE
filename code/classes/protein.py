@@ -8,11 +8,9 @@ class Protein():
         self.i_list: list[int] = []
         self.aminos = self.make_aminos(input_file)
         self.score = 0
-        self.coordinates_set: set[tuple[int]] = set()
+        self.size: int = len(self.i_list)
         
         for i in self.i_list:
-            coordinates = self.aminos[i].coordinates
-            self.coordinates_set.add(coordinates)
             if self.aminos[i].direction != 0:
                 self.aminos[i].next = self.aminos[i + 1]
         
@@ -29,6 +27,9 @@ class Protein():
         for i in range(1, len(structure)):
             aminos[i] = Amino(i, structure[i], 0, (0, 0), aminos[i-1])
             self.i_list.append(i)
+
+        for index in range(len(structure) - 1):
+            aminos[index].next_amino = aminos[index + 1]
         return aminos
 
     def import_structure(self, file_directory: str) -> dict:
@@ -68,6 +69,8 @@ class Protein():
             aminos[amino_id] = Amino(amino_id, soort, direction, coordinates,
                                   aminos[amino_id - 1])
         file.close()
+        for index in range(len(self.i_list) - 1):
+            aminos[index].next_amino = aminos[index + 1]
         return aminos
     
     def get_empty_amino(self) -> Any:
@@ -130,6 +133,12 @@ class Protein():
         output_file.write(f"score,{self.count_score()}")
         output_file.close()
 
-    def change_coordinates(self, old_coordinates, new_coordinates) -> None:
-        self.coordinates_set.remove(old_coordinates)
-        self.coordinates_set.add(new_coordinates)
+    def change_coordinates(self) -> None:
+        for i in range(1, self.size):
+            self.aminos[i].change_coordinates()
+
+    def get_coordinates(self) -> set[tuple[int]]:
+        coordinates: set(tuple(int)) = set()
+        for i in range(self.size):
+            coordinates.add(self.aminos[i].coordinates)
+        return coordinates
