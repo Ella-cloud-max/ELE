@@ -47,27 +47,3 @@ class Amino():
                 unavailable_options.add(i)
         options = list(available_options - unavailable_options)
         return options
-    
-    # # checks whether coordinates of amino are not same as any previous amino's
-    # def check_coordinates(self, algorithm) -> bool:
-    #     check_previous = self.previous_amino
-    #     save_coordinates = []
-    #     while check_previous != None:
-    #         save_coordinates.append(check_previous.coordinates)            
-    #         check_previous = check_previous.previous_amino
-        
-    #     if self.coordinates in save_coordinates:
-    #         return False
-
-        # for i in [-2, -1, 1, 2]:
-        #     if abs(i) == 1 and [self.coordinates[0] + i, self.coordinates[1]] in save_coordinates:
-        #         self.neighbours += 1
-        #     elif abs(i) == 2 and [self.coordinates[0], self.coordinates[1] + i] in save_coordinates:
-        #         self.neighbours += 1
-
-        # print(self.i, self.soort, self.neighbours)
-
-        # if self.neighbours == 4:
-        #     check_previous = self.previous_amino
-        
-        # return True

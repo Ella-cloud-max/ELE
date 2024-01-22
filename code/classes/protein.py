@@ -4,10 +4,10 @@ from typing import Any, Union
 class Protein():
     def __init__(self, input_file: str) -> None:
         self.i_list: list[int] = []
-        self.aminos = self.make_aminos(input_file)
-        self.score = 0
+        self.aminos: dict[int, Amino] = self.make_aminos(input_file)
+        self.score: int = 0
     
-    def make_aminos(self, input_file: str) -> dict[int, Any]:
+    def make_aminos(self, input_file: str) -> dict[int, Amino]:
         """ Add aminos to a protein """
         aminos = {}
         structure = [*str(*open(input_file))]
