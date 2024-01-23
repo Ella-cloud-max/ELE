@@ -23,32 +23,23 @@ def create_options(protein):
     score_list: list = []
     id_list: list = []
     aminos_id = protein.i_list
-
-    for i in range(len(aminos_id) - 1):
-        protein_copy = copy.deepcopy(protein)
-        aminos_copy = protein_copy.aminos
+    for i in range(1, len(aminos_id) - 1):
         direction_options: list[int] = [-1, 1, -2, 2]
-        if i == 0:
-            direction_options.remove(aminos_copy[i].direction)
-            direction_options.remove(aminos_copy[i].next_amino.direction * -1)
-        elif i == aminos_id[-2]:
-            direction_options.remove(aminos_copy[i].direction)
-            direction_options.remove(aminos_copy[i].previous_amino.direction * -1)
-        else:
-            direction_options = [aminos_copy[i].next_amino.direction]
-            if aminos_copy[i].direction == direction_options[0]:
-                direction_options.remove(aminos_copy[i].direction)
+        if i != aminos_id[-1]:
+            direction_options.remove(aminos[i].direction)
+        direction_options.remove(aminos[i].previous_amino.direction * -1)
         # print(f"id is {i}, options are {direction_options}")
         for option in direction_options:
-            # print(aminos_copy[i].direction)
-            
-            if i != 0 and i != aminos_id[-2]:
-                aminos_copy[i + 1].direction = aminos_copy[i].direction
+            protein_copy = copy.deepcopy(protein)
+            aminos_copy = protein_copy.aminos
+            old_direction = aminos_copy[i].direction
             aminos_copy[i].direction = option
-            
+
+
             # print(f"id is {i}")
             # print(f"aminos i direction is {aminos_copy[i].direction}")
             # print(f"aminos i + 1 direction is {aminos_copy[i + 1].direction}")
+            protein_copy.rotate(i, old_direction)
             protein_copy.change_coordinates(i)
             if len(protein_copy.get_coordinates()) == protein_copy.size:
                 score_list.append(protein_copy.count_score())
@@ -70,9 +61,9 @@ def loop(protein) -> tuple[Any]:
     iterate_counter = 0
     current_protein = copy.deepcopy(protein)
     best_solution = (copy.deepcopy(current_protein), Zc)
-    # no_progress_counter = 0
+    no_progress_counter = 0
     while iterate_counter < 1000:
-        # print(f"iteration is {iterate_counter}")
+        print(f"iteration is {iterate_counter}")
         # print(f"direction last amino {current_protein.aminos[current_protein.size - 1].direction}")
         # print(current_protein.get_coordinates())
         if iterate_counter%200 == 0 and iterate_counter != 0:
@@ -88,13 +79,13 @@ def loop(protein) -> tuple[Any]:
             new_direction = directions_list[choice]
             x = (Zc-Zn)/T
             # x = Zc - Zn
-            # print(f"Id is {amino_id}, old direction is {current_protein.aminos[amino_id].direction}, new direction is {new_direction}")
             if Zn <= Zc:
+                print(f"Id is {amino_id}, old direction is {current_protein.aminos[amino_id].direction}, new direction is {new_direction}")
                 Zc = Zn
                 amino_change = current_protein.aminos[amino_id]
-                if amino_id != 0 and amino_id != protein.size - 2:
-                    amino_change.next_amino.direction = amino_change.direction
+                old_direction = amino_change.direction
                 amino_change.direction = new_direction
+                current_protein.rotate(amino_id, old_direction)
                 current_protein.change_coordinates(amino_id)
                 
                 if Zc <= best_solution[1]:
@@ -102,19 +93,22 @@ def loop(protein) -> tuple[Any]:
                 break
             elif random.random() > pow(e, x):
             # elif random.random() > pow(2, x):
+                print(f"Id is {amino_id}, old direction is {current_protein.aminos[amino_id].direction}, new direction is {new_direction}")
                 Zc = Zn
                 amino_change = current_protein.aminos[amino_id]
-                if amino_id != 0 and amino_id != protein.size - 2:
-                    amino_change.next_amino.direction = amino_change.direction
+                old_direction = amino_change.direction
                 amino_change.direction = new_direction
+                current_protein.rotate(amino_id, old_direction)
                 current_protein.change_coordinates(amino_id)
                 if Zc < best_solution[1]:
                     best_solution = (copy.deepcopy(current_protein), Zc)
                 break
             else:
                 index_list.remove(choice)
-        # if Zc == best_solution[1]:
+        # if Zc >= best_solution[1]:
         #     no_progress_counter += 1
+        # else:
+        #     no_progress_counter = 0
         # if no_progress_counter > 100:
         #     return best_solution
         if len(index_list) == 0:
@@ -122,7 +116,6 @@ def loop(protein) -> tuple[Any]:
         
         iterate_counter += 1
     return best_solution
-
 
 
 if __name__ == "__main__":
@@ -134,16 +127,26 @@ if __name__ == "__main__":
         randomise.random_assignment(protein)
     best_protein = copy.deepcopy(protein)
     while counter < 10:
-        current_solution = copy.deepcopy(loop(protein)[0])
-        if current_solution.count_score() < best_protein.count_score():
-            best_protein = copy.deepcopy(current_solution)
+        current_solution = loop(protein)
+        if current_solution[1] < best_protein.count_score():
+            best_protein = copy.deepcopy(current_solution[0])
         counter += 1
-        print(f"protein {counter}, score {current_solution.count_score()}")
-        print(f"best protein {counter}, score {best_protein.count_score()}")
-        randomise.random_assignment(protein)
-        while protein.check_viability() == False:
+        print(f"protein {counter}, score {current_solution[0].count_score()}")
+        if counter != 10:
             randomise.random_assignment(protein)
-        
+            while protein.check_viability() == False:
+                randomise.random_assignment(protein)
+    id_list, directions_list, score_list = create_options(best_protein)
+    score = min(score_list)
+    index = score_list.index(score)
+    amino_id = id_list[index]
+    new_direction = directions_list[index]
+    amino_change = best_protein.aminos[amino_id]
+    old_direction = amino_change.direction
+    amino_change.direction = new_direction
+    best_protein.rotate(amino_id, old_direction)
+    best_protein.change_coordinates(amino_id)
+    
     best_protein.print_output("output_Eric.csv")
     print(best_protein.count_score())
     print_folded_protein("output/output_Eric.csv")

@@ -133,8 +133,8 @@ class Protein():
         output_file.write(f"score,{self.count_score()}")
         output_file.close()
 
-    def change_coordinates(self) -> None:
-        for i in range(1, self.size):
+    def change_coordinates(self, amino_id) -> None:
+        for i in range(amino_id, self.size):
             self.aminos[i].change_coordinates()
 
     def get_coordinates(self) -> set[tuple[int]]:
@@ -142,3 +142,17 @@ class Protein():
         for i in range(self.size):
             coordinates.add(self.aminos[i].coordinates)
         return coordinates
+
+    def rotate(self, amino_id, old_direction):
+        directions = [2, 1, -2, -1]
+        old_index = directions.index(old_direction)
+        new_index = directions.index(self.aminos[amino_id].direction)
+        if new_index - old_index == 1 or new_index - old_index == -3:
+            index_mutation = -3
+        elif new_index - old_index == -1 or new_index - old_index == 3:
+            index_mutation = -1
+        else:
+            index_mutation = -2
+        for i in range(amino_id + 1, self.size - 1):
+            index = directions.index(self.aminos[i].direction)
+            self.aminos[i].direction = directions[index + index_mutation]
