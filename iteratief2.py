@@ -122,9 +122,9 @@ if __name__ == "__main__":
     counter = 0
     # to create random protein
     protein = Protein(f"proteins/{sys.argv[1]}")
-    randomise.random_assignment(protein)
+    randomise.random_assignment_protein(protein)
     while protein.check_viability() == False:
-        randomise.random_assignment(protein)
+        randomise.random_assignment_protein(protein)
     best_protein = copy.deepcopy(protein)
     while counter < 10:
         current_solution = loop(protein)
@@ -133,9 +133,9 @@ if __name__ == "__main__":
         counter += 1
         print(f"protein {counter}, score {current_solution[0].count_score()}")
         if counter != 10:
-            randomise.random_assignment(protein)
+            randomise.random_assignment_protein(protein)
             while protein.check_viability() == False:
-                randomise.random_assignment(protein)
+                randomise.random_assignment_protein(protein)
     id_list, directions_list, score_list = create_options(best_protein)
     score = min(score_list)
     index = score_list.index(score)

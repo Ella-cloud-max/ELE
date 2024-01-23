@@ -10,27 +10,25 @@ if __name__ == "__main__":
 
     input_file = f"{sys.argv[1]}"
 
-    # ------------- random algorithm -------------
+    # ------------- baseline random algorithm -------------
     test_protein = protein.Protein(input_file)
-
-    randomise.random_assignment(test_protein)
+    randomise.random_assignment_protein(test_protein)
 
     while test_protein.check_viability() == False:
-        randomise.random_assignment(test_protein)
+        randomise.random_assignment_protein(test_protein)
     
     test_protein.print_output(f"{sys.argv[2]}")
     visualisation.print_folded_protein(f"output/{sys.argv[2]}")
 
-    for test_amino in test_protein.aminos.values():
-        if test_amino.i == test_protein.i_list[-1]:
-            continue
-        randomise.random_reconfigure_amino(test_protein, test_amino)
+    # # ------------- adaptations to random algo -------------
+    # test_amino = test_protein.aminos[sorted(test_protein.aminos.keys())[3]]
+    # randomise.random_reconfigure_aminos(test_protein, test_amino)
 
-        while test_protein.check_viability() == False:
-            randomise.random_configure_amino(test_protein, test_amino)
-        
-        test_protein.print_output(f"{sys.argv[2]}_2")
-        visualisation.print_folded_protein(f"output/{sys.argv[2]}_2")
+    # while test_protein.check_viability() == False:
+    #     randomise.random_reconfigure_aminos(test_protein, test_amino)
+
+    # test_protein.print_output(f"{sys.argv[2]}_2")
+    # visualisation.print_folded_protein(f"output/{sys.argv[2]}_2")
 
     # ------------- depth-first algorithm -------------
     input_file = "proteins/protein1.csv"
@@ -46,9 +44,3 @@ if __name__ == "__main__":
     depth.protein.print_output("output_ella.csv")
     visualisation.print_folded_protein("output/output_ella.csv")
 
-    # Try random algorithm
-    test_protein = protein.Protein(input_file)
-    random_protein = randomise.randomise(test_protein)
-
-    while test_protein.check_viability() == False:
-        random_protein = randomise.randomise(test_protein)
