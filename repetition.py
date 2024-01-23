@@ -1,19 +1,26 @@
 from code.classes import protein, amino
 from code.algorithms import randomise
 from code.visualisation import visualisation
+import matplotlib.pyplot as plt
+import time
 
-score = 0
-for N in range(10000):
-    input_file = "proteins/protein1.csv"
+start = time.time()
+list_scores = []
+for N in range(100000):
+    input_file = "proteins/protein.csv"
 
     test_protein = protein.Protein(input_file)
     
-    random_protein = randomise.random_assignment(test_protein)
+    random_protein = randomise.random_assignment_protein(test_protein)
     while test_protein.check_viability() == False:
-        random_protein = randomise.random_assignment(test_protein)
+        random_protein = randomise.random_assignment_protein(test_protein)
     
-    test_protein.print_output(f"repetitions/output_{N}")
+    list_scores.append(test_protein.count_score())
 
-    if test_protein.count_score() < score:
-        score = test_protein.score
-        visualisation.print_folded_protein(f"output/repetitions/output_{N}")
+length = time.time() - start
+
+print(length)
+
+plt.hist(list_scores, [-3.5, -2.5, -1.5, -0.5, 0.5])
+plt.xlim(min(list_scores) - 1.5, max(list_scores) + 1.5)
+plt.show()
