@@ -42,7 +42,7 @@ class DepthFirst:
             new_protein.aminos[amino.i].change_coordinates()
             self.states.append(new_protein)
 
-    def check_solution(self, new_protein: Protein) -> None:
+    def check_solution(self, new_protein: Protein, outputfile: str) -> None:
         """
         Checks and accepts better solutions than the current solution.
         """
@@ -52,10 +52,11 @@ class DepthFirst:
         # Update if the new protein has a lower score
         if new_value < old_value:
             self.best_solution = new_protein
+            self.best_solution.print_output(outputfile)
             self.best_value = new_value
             print(f"New best value: {self.best_value}")
 
-    def run(self, max_seconds: int) -> None:
+    def run(self, outputfile: str, max_seconds: int = float('inf')) -> None:
         """
         Runs the algorithm untill all possible states are visited.
         """
@@ -77,7 +78,7 @@ class DepthFirst:
                 self.build_children(new_protein, amino)
             # Otherwise check the score
             else:
-                self.check_solution(new_protein)
+                self.check_solution(new_protein, outputfile)
                 
                 # Stop if we find a solution we want
                 # if self.best_value == -1:
