@@ -1,9 +1,10 @@
+import sys
 from code.classes import protein
 from code.algorithms import randomise
 import random
 
 def get_possibilities2(amino) -> list[int]:
-    """ Get a list of the possible directions an amino can go to """
+    """ Get a list of the possible directions an amino can go to. """
     available_options = set([-2, -1, 1, 2])
     if amino.previous_amino == None:
         options = list(available_options)
@@ -36,29 +37,23 @@ def greedy(protein):
             possibilities = get_possibilities2(amino)
             if len(possibilities) == 0:
                 while len(get_possibilities2(amino)) <= 2 or amino.soort == "H":
-                    print(f"reset: {amino}")
                     amino.reset_position()
                     amino = amino.previous_amino
                 amino.reset_position()
-                print(f"reset: {amino}")
                 amino.previous_amino.reset_position()
                 continue
             amino.previous_amino.direction = random.choice(possibilities)
             amino.change_coordinates()
-            print(f"amino: {amino}")
             continue
 
         good_possibilities = []
         possibilities = get_possibilities2(amino)
         if len(possibilities) == 0:
             while len(get_possibilities2(amino)) <= 2 or amino.soort == "H":
-                print(f"reset: {amino}")
                 amino.reset_position()
                 amino = amino.previous_amino
             amino.reset_position()
-            print(f"reset: {amino}")
             amino.previous_amino.reset_position()
-            print(f"reset: {amino.previous_amino}")
             continue
         minimum_score = 0
         for item in possibilities:
@@ -73,8 +68,3 @@ def greedy(protein):
                 good_possibilities.append(item)
         amino.previous_amino.change_direction(random.choice(good_possibilities))
         amino.change_coordinates()
-        print(f"amino: {amino}")
-        
-
-test_protein = protein.Protein(input_file="proteins/protein4.csv")
-greedy(test_protein)
