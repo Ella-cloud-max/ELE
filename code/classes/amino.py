@@ -53,6 +53,35 @@ class Amino():
         options = list(available_options - unavailable_options)
         return options
 
+    def get_options(self):
+        directions, mutation_kind = self.get_rotate_options
+        options = self.get_pull_options
+        directions += options[0]
+        mutation_kind += options[1]
+        return (directions, mutation_kind)
+
+    def get_rotate_options(self):
+        direction_options: list[int] = [-1, 1, -2, 2]
+        if self.direction != 0:
+            direction_options.remove(self.direction)
+        if self.i != 0:
+            direction_options.remove(self.previous_amino.direction * -1)
+        return direction_options
+
+    def get_pull_options(self):
+        direction_options: list[int] = [-1, 1, -2, 2]
+        if self.i == 0:
+            direction_options.remove(self.direction)
+            direction_options.remove(self.next_amino.direction * -1)
+        elif self.next_amino.direction == 0:
+            direction_options.remove(self.direction)
+            direction_options.remove(self.previous_amino.direction * -1)
+        else:
+            direction_options = [self.next_amino.direction]
+            if self.direction == direction_options[0]:
+                direction_options.remove(self.direction)
+        return direction_options
+
     def reset_position(self):
         self.direction = 0
         self.coordinates = (0, 0)
