@@ -8,7 +8,7 @@ def baseline_random_amino(protein, amino):
         amino.change_direction(random.choice([-2, -1, 1, 2]))
     amino.change_coordinates()
 
-def random_assignment_protein(protein):
+def baseline_random_protein(protein):
     """This function applies the baseline random algorithm
     to the whole protein."""
     for amino in protein.aminos.values():
