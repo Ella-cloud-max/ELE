@@ -8,10 +8,10 @@ from typing import Any
 class Amino():
     def __init__(self, i: int, soort: str, direction: int, coordinates: tuple[int], previous: Any) -> None:
         self.i: int = i
-        self.soort: str = soort                      # H or P
-        self.direction: int = direction                    # -2, -1, 1 or 2 (see explanation above)
-        self.coordinates: tuple[int] = coordinates    # [n, m]
-        self.previous_amino = previous             # variable holds class of previous amino
+        self.soort: str = soort                       # H or P
+        self.direction: int = direction               # -2, -1, 1 or 2 (see explanation above)
+        self.coordinates: tuple[int] = coordinates    # (n, m)
+        self.previous_amino = previous                # variable holds class of previous amino
         self.next_amino: Any = None
 
     def __repr__(self) -> str:
@@ -43,7 +43,7 @@ class Amino():
         while previous != None:
             unsave_coordinates.append(previous.coordinates)
             previous = previous.previous_amino
-        
+
         unavailable_options = set()
         for i in available_options:
             if abs(i) == 1 and (previous_coordinates[0] + i, previous_coordinates[1]) in unsave_coordinates:
@@ -53,26 +53,6 @@ class Amino():
         options = list(available_options - unavailable_options)
         return options
 
-    # # checks whether coordinates of amino are not same as any previous amino's
-    # def check_coordinates(self, algorithm) -> bool:
-    #     check_previous = self.previous_amino
-    #     save_coordinates = []
-    #     while check_previous != None:
-    #         save_coordinates.append(check_previous.coordinates)            
-    #         check_previous = check_previous.previous_amino
-        
-    #     if self.coordinates in save_coordinates:
-    #         return False
-
-        # for i in [-2, -1, 1, 2]:
-        #     if abs(i) == 1 and [self.coordinates[0] + i, self.coordinates[1]] in save_coordinates:
-        #         self.neighbours += 1
-        #     elif abs(i) == 2 and [self.coordinates[0], self.coordinates[1] + i] in save_coordinates:
-        #         self.neighbours += 1
-
-        # print(self.i, self.soort, self.neighbours)
-
-        # if self.neighbours == 4:
-        #     check_previous = self.previous_amino
-        
-        # return True
+    def reset_position(self):
+        self.direction = 0
+        self.coordinates = (0, 0)
