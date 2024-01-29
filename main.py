@@ -16,7 +16,7 @@ if __name__ == "__main__":
     test_protein = protein.Protein(input_file)
     baseline.baseline_random_protein(test_protein)
 
-    while test_protein.check_viability() == False:
+    while test_protein.check_validity() == False:
         baseline.baseline_random_protein(test_protein)
 
     test_protein.print_output("main/random_baseline.csv")
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     test_protein = protein.Protein(input_file)
     randomise.random_assignment_protein(test_protein)
 
-    while test_protein.check_viability() == False:
+    while test_protein.check_validity() == False:
         randomise.random_assignment_protein(test_protein)
 
     test_protein.print_output("main/random_improved.csv")

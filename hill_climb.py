@@ -71,7 +71,7 @@ def try_direction(protein, new_direction, mutation_option, amino_id):
         mutate_direction_rotate(amino_id, copy_protein, new_direction)
     else:
         mutate_direction_pull(amino_id, copy_protein, new_direction)
-    if copy_protein.check_viability():
+    if copy_protein.check_validity():
         return (True, copy_protein.count_score(), copy_protein)
     return (False, 1)
 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     # to create random protein
     protein = Protein(f"proteins/{sys.argv[1]}")
     randomise.random_assignment_protein(protein)
-    while protein.check_viability() == False:
+    while protein.check_validity() == False:
         randomise.random_assignment_protein(protein)
     best_protein = (copy.deepcopy(protein), protein.count_score())
     while counter < loop_amount:
@@ -115,7 +115,7 @@ if __name__ == "__main__":
         print(f"protein {counter}, score {current_solution[0].count_score()}")
         if counter != loop_amount:
             randomise.random_assignment_protein(protein)
-            while protein.check_viability() == False:
+            while protein.check_validity() == False:
                 randomise.random_assignment_protein(protein)
     protein_name = sys.argv[1]
     best_protein[0].print_output("output_" + protein_name)

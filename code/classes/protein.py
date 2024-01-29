@@ -80,7 +80,7 @@ class Protein():
                 return amino
         return None
 
-    def check_viability(self) -> bool:
+    def check_validity(self) -> bool:
         """ Check that no aminos have the same coordinates """
         check_amino = self.aminos[self.i_list[-1]]
         while check_amino != None:
@@ -94,7 +94,7 @@ class Protein():
 
     def count_score(self) -> Union[bool, int]:
         """ Count and update the score of the protein """
-        if not self.check_viability():
+        if not self.check_validity():
             return False
         
         self.score = 0
@@ -123,7 +123,7 @@ class Protein():
             count_amino = count_amino.previous_amino
         return self.score
     
-    def check_viability_amino(self, amino) -> bool:
+    def check_validity_amino(self, amino) -> bool:
         """
         Check that amino does not have the same coordinates as any
         previous amino.
@@ -140,7 +140,7 @@ class Protein():
 
     def count_score_amino(self, amino) -> Union[bool, int]:
         """ Count and update the score of the protein """
-        if not self.check_viability_amino(amino):
+        if not self.check_validity_amino(amino):
             return False
         
         self.score = 0
