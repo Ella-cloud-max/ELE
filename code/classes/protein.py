@@ -78,7 +78,6 @@ class Protein():
         for amino in self.aminos.values():
             if amino.coordinates == (0, 0) and amino.i != 0:
                 return amino
-
         return None
 
     def check_viability(self) -> bool:
@@ -100,6 +99,52 @@ class Protein():
         
         self.score = 0
         count_amino = self.aminos[self.i_list[-1]]
+        while count_amino != None:
+            # Check if there are H*H or H*C bonds (also does -1 if there is a C*C bond)
+            if count_amino.soort == "H" or count_amino.soort == "C":
+                check_previous = count_amino.previous_amino
+                while check_previous != None:
+                    if (abs(check_previous.coordinates[0] - count_amino.coordinates[0]) + abs(check_previous.coordinates[1] - count_amino.coordinates[1])) == 1 \
+                        and (check_previous.soort == "H" or check_previous.soort == "C") \
+                        and abs(check_previous.i - count_amino.i) != 1:
+                        self.score -= 1
+                    check_previous = check_previous.previous_amino
+            
+            # Check if there are C*C bonds (minus an extra -4)
+            if count_amino.soort == "C":
+                check_previous = count_amino.previous_amino
+                while check_previous != None:
+                    if (abs(check_previous.coordinates[0] - count_amino.coordinates[0]) + abs(check_previous.coordinates[1] - count_amino.coordinates[1])) == 1 \
+                        and check_previous.soort == "C" \
+                        and abs(check_previous.i - count_amino.i) != 1:
+                        self.score -= 4
+                    check_previous = check_previous.previous_amino
+            
+            count_amino = count_amino.previous_amino
+        return self.score
+    
+    def check_viability_amino(self, amino) -> bool:
+        """
+        Check that amino does not have the same coordinates as any
+        previous amino.
+        """
+        check_amino = amino
+        while check_amino != None:
+            check_previous = check_amino.previous_amino
+            while check_previous != None:
+                if check_amino.coordinates == check_previous.coordinates:
+                    return False
+                check_previous = check_previous.previous_amino
+            check_amino = check_amino.previous_amino
+        return True
+
+    def count_score_amino(self, amino) -> Union[bool, int]:
+        """ Count and update the score of the protein """
+        if not self.check_viability_amino(amino):
+            return False
+        
+        self.score = 0
+        count_amino = amino
         while count_amino != None:
             # Check if there are H*H or H*C bonds (also does -1 if there is a C*C bond)
             if count_amino.soort == "H" or count_amino.soort == "C":
