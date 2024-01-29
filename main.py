@@ -19,43 +19,43 @@ if __name__ == "__main__":
     while test_protein.check_validity() == False:
         baseline.baseline_random_protein(test_protein)
 
-    test_protein.print_output("main/random_baseline.csv")
-    visualisation.print_folded_protein(f"output/main/random_baseline.csv")
+    #test_protein.print_output("random_baseline.csv")
+    #visualisation.print_folded_protein(f"output/main/random_baseline.csv")
 
-    # ------------- adaptations to random algo -------------
+    # # ------------- adaptations to random algo -------------
 
-    print("RANDOM+")
+    # print("RANDOM+")
 
-    test_protein = protein.Protein(input_file)
-    randomise.random_assignment_protein(test_protein)
+    # test_protein = protein.Protein(input_file)
+    # randomise.random_assignment_protein(test_protein)
 
-    while test_protein.check_validity() == False:
-        randomise.random_assignment_protein(test_protein)
+    # while test_protein.check_validity() == False:
+        # randomise.random_assignment_protein(test_protein)
 
-    test_protein.print_output("main/random_improved.csv")
-    visualisation.print_folded_protein(f"output/main/random_improved.csv")
+    # test_protein.print_output("main/random_improved.csv")
+    # visualisation.print_folded_protein(f"output/main/random_improved.csv")
 
-    # ------------- greedy-random algorithm -----------
+    # # ------------- greedy-random algorithm -----------
 
-    print("GREEDY RANDOM")
+    # print("GREEDY RANDOM")
 
-    test_protein = protein.Protein(input_file)
-    greedy.greedy(test_protein)
-    test_protein.print_output("main/greedy_random.csv")
-    visualisation.print_folded_protein(f"output/main/greedy_random.csv")
+    # test_protein = protein.Protein(input_file)
+    # greedy.greedy(test_protein)
+    # test_protein.print_output("main/greedy_random.csv")
+    # visualisation.print_folded_protein(f"output/main/greedy_random.csv")
 
     # ------------- depth-first algorithm -------------
 
-    print("DEPTH-FIRST")
+    # print("DEPTH-FIRST")
 
-    test_protein = protein.Protein(input_file)
-    depth = depth_first.DepthFirst(test_protein)
+    # test_protein = protein.Protein(input_file)
+    # depth = depth_first.DepthFirst(test_protein)
 
-    # Run the algoritm for x amount of seconds
-    depth.run("main/depthfirst_output.csv", 10)
+    # # Run the algoritm for x amount of seconds
+    # depth.run("depthfirst_output.csv")
 
-    print(f"Value of the configuration after Depth First: "
-         f"{depth.protein.count_score()}")
+    # print(f"Value of the configuration after Depth First: "
+         # f"{depth.protein.count_score()}")
 
-    depth.protein.print_output("output_ella.csv")
-    visualisation.print_folded_protein("output/output_ella.csv")
+    # depth.protein.print_output("output_ella.csv")
+    # visualisation.print_folded_protein("output/output_ella.csv")
