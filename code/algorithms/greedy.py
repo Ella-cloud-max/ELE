@@ -13,9 +13,9 @@ def greedy(protein):
             return
 
         if amino.soort == "P":
-            possibilities = amino.get_possibilities(amino)
+            possibilities = amino.get_possibilities()
             if len(possibilities) == 0:
-                while len(amino.get_possibilities(amino)) <= 2 or amino.soort == "H":
+                while len(amino.get_possibilities()) <= 2 or amino.soort == "H":
                     amino.reset_position()
                     amino = amino.previous_amino
                 amino.reset_position()
@@ -26,9 +26,9 @@ def greedy(protein):
             continue
 
         good_possibilities = []
-        possibilities = amino.get_possibilities(amino)
+        possibilities = amino.get_possibilities()
         if len(possibilities) == 0:
-            while len(amino.get_possibilities(amino)) <= 2 or amino.soort == "H":
+            while len(amino.get_possibilities()) <= 2 or amino.soort == "H":
                 amino.reset_position()
                 amino = amino.previous_amino
             amino.reset_position()
