@@ -37,12 +37,13 @@ if __name__ == "__main__":
 
     # # ------------- greedy-random algorithm -----------
 
-    print("GREEDY RANDOM")
 
     test_protein = protein.Protein(input_file)
     greedy.greedy(test_protein)
-    test_protein.print_output("main/greedy_random.csv")
-    visualisation.print_folded_protein(f"output/main/greedy_random.csv")
+
+    print(test_protein.count_score())
+    # test_protein.print_output("main/greedy_random.csv")
+    # visualisation.print_folded_protein(f"output/main/greedy_random.csv")
 
     # ------------- depth-first algorithm -------------
 
