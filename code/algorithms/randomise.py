@@ -1,6 +1,9 @@
 import random
 
 def random_assignment_amino(protein, amino):
+    """
+    Baseline improved by aminos not being able to go back immediately.
+    """
     directions = [-1, 1, -2, 2]
     if amino.i == protein.i_list[-1]:
         amino.direction = 0

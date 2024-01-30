@@ -85,7 +85,7 @@ def try_direction(protein, new_direction, mutation_option, amino_id):
     else:
         copy_protein.aminos[amino_id].direction = new_direction
         copy_protein.change_coordinates(amino_id)
-    if copy_protein.check_viability():
+    if copy_protein.check_validity():
         return (True, copy_protein.count_score(), copy_protein)
     return (False, 1)
 
