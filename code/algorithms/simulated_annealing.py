@@ -14,7 +14,7 @@ import random
 import copy
 
 
-def simulated_annealing(protein, start_temperature, temp_decreasing_interval, no_progress_limit) -> tuple[Any]:
+def simulated_annealing(protein, start_temperature, temp_decreasing_interval, no_progress_limit) -> tuple['Protein', int]:
     Zc = protein.count_score()
     T = start_temperature
     iterate_counter = 0
@@ -66,7 +66,7 @@ def simulated_annealing(protein, start_temperature, temp_decreasing_interval, no
             return best_solution
     return best_solution
 
-def setup_simulated_annealing(protein_file_name, loop_amount, start_temperature, temp_decreasing_interval, no_progress_limit):
+def setup_simulated_annealing(protein_file_name, loop_amount, start_temperature, temp_decreasing_interval, no_progress_limit) -> 'Protein':
     protein = Protein(f"proteins/{protein_file_name}")
     randomise.random_assignment_protein(protein)
     counter = 0
