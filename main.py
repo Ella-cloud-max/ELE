@@ -41,7 +41,7 @@ if __name__ == "__main__":
     test_protein = protein.Protein(input_file)
     greedy.greedy(test_protein)
 
-    print(test_protein.count_score())
+    print(test_protein.count_score(), end='')
     # test_protein.print_output("main/greedy_random.csv")
     # visualisation.print_folded_protein(f"output/main/greedy_random.csv")
 
