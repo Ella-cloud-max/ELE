@@ -12,6 +12,8 @@ list_scores = []
 while time.time() - start < 100:
     print(f"run: {n_runs}")
     result = subprocess.run(["timeout", "5", "python3", "main.py", "proteins/protein1.csv"], capture_output=True, text = True)
+    if result.stdout == "":
+        continue
     list_scores.append(int(result.stdout))
     n_runs += 1
 
