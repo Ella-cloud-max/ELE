@@ -4,19 +4,24 @@ import sys
 from code.algorithms import baseline
 from code.classes import protein
 import matplotlib.pyplot as plt
+import pickle, codecs
+from unidecode import unidecode
+
 
 start = time.time()
 n_runs = 0
 list_scores = []
 
-while time.time() - start < 100:
+while time.time() - start < 10:
     print(f"run: {n_runs}")
-    result = subprocess.run(["timeout", "5", "python3", "main.py", "proteins/protein1.csv"], capture_output=True, text = True)
-    print(result.stdout)
+    result = subprocess.Popen(["timeout", "5", "python3", "main.py", "proteins/protein1.csv"], stdout=subprocess.PIPE)
+    output, _ = result.communicate()
+
     if result.stdout == "":
         n_runs += 1
         continue
-    list_scores.append(int(result.stdout))
+    new_protein = pickle.loads(output)
+    list_scores.append(new_protein.count_score())
     n_runs += 1
 
 bins = [x + 0.5 for x in set(sorted(list_scores))]

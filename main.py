@@ -4,8 +4,10 @@ from code.classes import protein, amino
 from code.algorithms import baseline, randomise, depth_first
 from code.visualisation import visualisation
 import code.algorithms.greedy as greedy
+import pickle
 
-def baseline(input_file):
+
+def baseline_func(input_file):
     # ------------- baseline random algorithm -------------
 
     print("BASELINE")
@@ -19,7 +21,7 @@ def baseline(input_file):
     test_protein.print_output("random_baseline.csv")
     visualisation.print_folded_protein(f"output/main/random_baseline.csv")
 
-def random_plus(input_file):
+def random_plus_func(input_file):
     # ------------- adaptations to random algo -------------
 
     print("RANDOM+")
@@ -39,11 +41,11 @@ def greedy_func(input_file):
     test_protein = protein.Protein(input_file)
     greedy.greedy(test_protein)
 
-    return test_protein.count_score()
+    return test_protein
     # test_protein.print_output("main/greedy_random.csv")
     # visualisation.print_folded_protein(f"output/main/greedy_random.csv")
 
-def depth_first(input_file):
+def depth_first_func(input_file):
     # ------------- depth-first algorithm -------------
 
     print("DEPTH-FIRST")
@@ -64,7 +66,9 @@ def depth_first(input_file):
 if __name__ == "__main__":
 
     input_file = f"{sys.argv[1]}"
-    score = greedy_func(input_file)
+    test_protein = greedy_func(input_file)
 
-    print(score, end = '')
+    result = pickle.dumps(test_protein)
+
+    sys.stdout.buffer.write(result)
     
