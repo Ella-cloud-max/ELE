@@ -53,7 +53,7 @@ class Amino():
         options = list(available_options - unavailable_options)
         return options
 
-    def get_options(self):
+    def get_options(self) -> tuple[list[int], list[str]]:
         directions, mutation_kind = self.get_rotate_options
         options = self.get_pull_options
         directions += options[0]
