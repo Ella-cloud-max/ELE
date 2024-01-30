@@ -14,15 +14,15 @@ import random
 import copy
 
 
-def simulated_annealing(protein) -> tuple[Any]:
+def simulated_annealing(protein, start_temperature, temp_decreasing_interval, no_progress_limit) -> tuple[Any]:
     Zc = protein.count_score()
-    T = 30
+    T = start_temperature
     iterate_counter = 0
     current_protein = copy.deepcopy(protein)
     best_solution = (copy.deepcopy(current_protein), Zc)
     no_progress_counter = 0
     while iterate_counter < 1000:
-        if iterate_counter%50 == 0 and iterate_counter != 0:
+        if iterate_counter%temp_decreasing_interval == 0 and iterate_counter != 0:
             T = T * 0.5
         id_list, directions_list, mutation_list = create_options(current_protein)
         index_list: list[int] = []
@@ -60,19 +60,19 @@ def simulated_annealing(protein) -> tuple[Any]:
         elif Zn < best_solution[1]:
             no_progress_counter = 0
     
-        if no_progress_counter >= 200:
+        if no_progress_counter >= no_progress_limit:
             return best_solution
         if len(index_list) == 0:
             return best_solution
     return best_solution
 
-def setup_simulated_annealing(protein_file_name, loop_amount):
+def setup_simulated_annealing(protein_file_name, loop_amount, start_temperature, temp_decreasing_interval, no_progress_limit):
     protein = Protein(f"proteins/{protein_file_name}")
     randomise.random_assignment_protein(protein)
     counter = 0
     best_protein = copy.deepcopy(protein)
     while counter < loop_amount:
-        current_solution, current_solution_score = simulated_annealing(protein)
+        current_solution, current_solution_score = simulated_annealing(protein, start_temperature, temp_decreasing_interval, no_progress_limit)
         if current_solution_score < best_protein.count_score():
             best_protein = copy.deepcopy(current_solution)
         counter += 1
