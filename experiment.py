@@ -6,23 +6,35 @@ from code.classes import protein
 import matplotlib.pyplot as plt
 import pickle, codecs
 from unidecode import unidecode
+from code.visualisation import visualisation
 
-
+input_protein = sys.argv[1]  
 start = time.time()
 n_runs = 0
 list_scores = []
+best_protein = None
+min_score = 0
 
-while time.time() - start < 10:
+while time.time() - start < 100:
     print(f"run: {n_runs}")
-    result = subprocess.Popen(["timeout", "5", "python3", "main.py", "proteins/protein1.csv"], stdout=subprocess.PIPE)
+    result = subprocess.Popen(["timeout", "5", "python3", "main.py", f"proteins/{input_protein}.csv"], stdout=subprocess.PIPE)
     output, _ = result.communicate()
 
-    if result.stdout == "":
+    if output == "":
         n_runs += 1
         continue
-    new_protein = pickle.loads(output)
-    list_scores.append(new_protein.count_score())
+
+    test_protein = pickle.loads(output)
+    score = test_protein.count_score()
+    list_scores.append(score)
+    if score < min_score:
+        best_protein = test_protein
+        min_score = score
+
     n_runs += 1
+
+best_protein.print_output(f"experiment_best_{input_protein}.csv")
+visualisation.print_folded_protein(f"output/experiment_best_{input_protein}.csv")
 
 bins = [x + 0.5 for x in set(sorted(list_scores))]
 bins.append(min(bins) - 1)
