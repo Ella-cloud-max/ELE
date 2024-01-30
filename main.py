@@ -3,7 +3,7 @@ import sys
 from code.classes import protein, amino
 from code.algorithms import baseline, randomise, depth_first
 from code.visualisation import visualisation
-import greedy
+import code.algorithms.greedy as greedy
 
 if __name__ == "__main__":
 
@@ -11,13 +11,13 @@ if __name__ == "__main__":
 
     # ------------- baseline random algorithm -------------
 
-    print("BASELINE")
+    # print("BASELINE")
 
-    test_protein = protein.Protein(input_file)
-    baseline.baseline_random_protein(test_protein)
+    # test_protein = protein.Protein(input_file)
+    # baseline.baseline_random_protein(test_protein)
 
-    while test_protein.check_validity() == False:
-        baseline.baseline_random_protein(test_protein)
+    # while test_protein.check_validity() == False:
+    #     baseline.baseline_random_protein(test_protein)
 
     #test_protein.print_output("random_baseline.csv")
     #visualisation.print_folded_protein(f"output/main/random_baseline.csv")
@@ -37,12 +37,12 @@ if __name__ == "__main__":
 
     # # ------------- greedy-random algorithm -----------
 
-    # print("GREEDY RANDOM")
+    print("GREEDY RANDOM")
 
-    # test_protein = protein.Protein(input_file)
-    # greedy.greedy(test_protein)
-    # test_protein.print_output("main/greedy_random.csv")
-    # visualisation.print_folded_protein(f"output/main/greedy_random.csv")
+    test_protein = protein.Protein(input_file)
+    greedy.greedy(test_protein)
+    test_protein.print_output("main/greedy_random.csv")
+    visualisation.print_folded_protein(f"output/main/greedy_random.csv")
 
     # ------------- depth-first algorithm -------------
 
