@@ -33,13 +33,13 @@ def random_plus(input_file):
     test_protein.print_output("main/random_improved.csv")
     visualisation.print_folded_protein(f"output/main/random_improved.csv")
 
-def greedy(input_file):
+def greedy_func(input_file):
     # ------------- greedy-random algorithm -----------
 
     test_protein = protein.Protein(input_file)
     greedy.greedy(test_protein)
 
-    print(test_protein.count_score(), end='')
+    return test_protein.count_score()
     # test_protein.print_output("main/greedy_random.csv")
     # visualisation.print_folded_protein(f"output/main/greedy_random.csv")
 
@@ -64,4 +64,7 @@ def depth_first(input_file):
 if __name__ == "__main__":
 
     input_file = f"{sys.argv[1]}"
-    greedy(input_file)
+    score = greedy_func(input_file)
+
+    print(score, end = '')
+    
