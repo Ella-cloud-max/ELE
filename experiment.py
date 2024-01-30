@@ -9,6 +9,7 @@ from unidecode import unidecode
 from code.visualisation import visualisation
 
 input_protein = sys.argv[1]  
+
 start = time.time()
 n_runs = 0
 list_scores = []
@@ -17,7 +18,7 @@ min_score = 0
 
 while time.time() - start < 100:
     print(f"run: {n_runs}")
-    result = subprocess.Popen(["timeout", "5", "python3", "main.py", f"proteins/{input_protein}.csv"], stdout=subprocess.PIPE)
+    result = subprocess.Popen(["timeout", "5", "python3", "main.py", "greedy", f"{input_protein}"], stdout=subprocess.PIPE)
     output, _ = result.communicate()
 
     if output == "":
@@ -42,4 +43,4 @@ bins = sorted(bins)
 
 plt.hist(list_scores, bins)
 plt.xlim(min(list_scores) - 1.5, max(list_scores) + 1.5)
-plt.show()
+plt.savefig("ella.png")

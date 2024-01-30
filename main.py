@@ -1,10 +1,12 @@
 import sys
 
 from code.classes import protein, amino
-from code.algorithms import baseline, randomise, depth_first
+from code.algorithms import baseline, randomise, depth_first, breadth_first
 from code.visualisation import visualisation
 import code.algorithms.greedy as greedy
 import pickle
+
+# Use example: python3 main.py greedy protein1
 
 
 def baseline_func(input_file):
@@ -59,16 +61,45 @@ def depth_first_func(input_file):
     print(f"Value of the configuration after Depth First: "
             f"{depth.protein.count_score()}")
 
-    depth.protein.print_output("output_ella.csv")
-    visualisation.print_folded_protein("output/output_ella.csv")
+    depth.protein.print_output("depthfirst_output.csv")
+    visualisation.print_folded_protein("output/depthfirst_output.csv")
+    return depth.protein
+
+def breadth_first_func(input_file):
+    # ------------- depth-first algorithm -------------
+
+    print("BREADTH-FIRST")
+
+    test_protein = protein.Protein(input_file)
+    breadth = breadth_first.BreadthFirst(test_protein)
+
+    # Run the algoritm for x amount of seconds
+    breadth.run("breadthfirst_output.csv")
+
+    print(f"Value of the configuration after Depth First: "
+            f"{breadth.protein.count_score()}")
+
+    breadth.protein.print_output("breadthfirst_output.csv")
+    visualisation.print_folded_protein("output/breadthfirst_output.csv")
+    return breadth.protein
 
 
 if __name__ == "__main__":
-
-    input_file = f"{sys.argv[1]}"
-    test_protein = greedy_func(input_file)
+    
+    algorithm = f"{sys.argv[1]}"
+    input_file = f"proteins/{sys.argv[2]}.csv"
+    
+    if algorithm == "baseline":
+        test_protein = baseline_func(input_file)
+    elif algorithm == "random":
+        test_protein = random_plus_func(input_file)
+    elif algorithm == "greedy":
+        test_protein = greedy_func(input_file)
+    elif algorithm == "depth":
+        test_protein = depth_first_func(input_file)
+    elif algorithm == "breadth":
+        test_protein = depth_first_func(input_file)
 
     result = pickle.dumps(test_protein)
 
     sys.stdout.buffer.write(result)
-    
