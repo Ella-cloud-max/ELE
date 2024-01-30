@@ -6,14 +6,10 @@ Created on Tue Jan 23 09:55:16 2024
 """
 
 import random
-from code.classes.amino import Amino
-from code.classes.protein import Protein
 from code.algorithms import randomise
-from code.visualisation.visualisation import print_folded_protein
 from typing import Any
 import copy
-import time
-import sys
+
 
 def create_pull_options(protein):
     directions_list: list = []
@@ -43,12 +39,27 @@ def create_rotate_options(protein):
             mutation_list.append("rotate")
     return (id_list, directions_list, mutation_list)
 
+def create_change_direction_options(protein):
+    directions_list: list = []
+    id_list: list = []
+    mutation_list: list[str] = []
+    aminos_id = protein.i_list
+
+    for i in range(1, len(aminos_id) - 1):
+        options = protein.aminos[i].get_rotate_options()
+        for option in options:
+            id_list.append(i)
+            directions_list.append(option)
+            mutation_list.append("change direction")
+    return (id_list, directions_list, mutation_list)
+
 def create_options(protein):
     id_list, directions_list, mutation_list = create_pull_options(protein)
-    options = create_rotate_options(protein)
-    id_list += options[0]
-    directions_list += options[1]
-    mutation_list += options[2]
+    rotate_options = create_rotate_options(protein)
+    change_direction_options = create_change_direction_options(protein)
+    id_list = id_list + rotate_options[0] + change_direction_options[0]
+    directions_list = directions_list + rotate_options[1] + change_direction_options[1]
+    mutation_list = mutation_list + rotate_options[2] + change_direction_options[2]
     return (id_list, directions_list, mutation_list)
 
 def mutate_direction_rotate(amino_id, current_protein, new_direction):
@@ -69,8 +80,11 @@ def try_direction(protein, new_direction, mutation_option, amino_id):
     copy_protein = copy.deepcopy(protein)
     if mutation_option == "rotate":
         mutate_direction_rotate(amino_id, copy_protein, new_direction)
-    else:
+    elif mutation_option == "pull":
         mutate_direction_pull(amino_id, copy_protein, new_direction)
+    else:
+        copy_protein.aminos[amino_id].direction = new_direction
+        copy_protein.change_coordinates(amino_id)
     if copy_protein.check_validity():
         return (True, copy_protein.count_score(), copy_protein)
     return (False, 1)
@@ -96,30 +110,18 @@ def hill_climb(protein) -> tuple[Any]:
             return current_protein
     return current_protein
 
-if __name__ == "__main__":
-    start_time = time.time()
-    counter = 0
-    loop_amount = int(sys.argv[2])
-    # to create random protein
-    protein = Protein(f"proteins/{sys.argv[1]}")
+def setup_hill_climb(protein_file_name, loop_amount):
+    protein = Protein(f"proteins/{protein_file_name}")
     randomise.random_assignment_protein(protein)
-    while protein.check_validity() == False:
-        randomise.random_assignment_protein(protein)
-    best_protein = (copy.deepcopy(protein), protein.count_score())
+    counter = 0
+    best_protein = copy.deepcopy(protein)
     while counter < loop_amount:
-        random_score = protein.count_score()
-        current_solution = hill_climb(protein)
-        if current_solution[1] < best_protein[0].count_score():
-            best_protein = (copy.deepcopy(current_solution[0]), random_score)
+        current_solution, current_solution_score = hill_climb(protein)
+        if current_solution_score < best_protein[0].count_score():
+            best_protein = copy.deepcopy(current_solution)
         counter += 1
-        print(f"protein {counter}, score {current_solution[0].count_score()}")
+        print(f"protein {counter}, score {current_solution_score}")
         if counter != loop_amount:
             randomise.random_assignment_protein(protein)
-            while protein.check_validity() == False:
-                randomise.random_assignment_protein(protein)
-    protein_name = sys.argv[1]
-    best_protein[0].print_output("output_" + protein_name)
-    print(f"This is the best protein found, the random score was {best_protein[1]}")
-    print_folded_protein("output/output_" + protein_name)
-    end_time = time.time()
-    print(f"Time duration is {end_time - start_time}")
+    
+    return best_protein
