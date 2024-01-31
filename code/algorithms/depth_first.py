@@ -10,7 +10,8 @@ from typing import Union, Any
 
 class DepthFirst:
     """
-    A Depth First algorithm that builds a stack of proteins with a unique assignment of amino acids for each instance.
+    A Depth First algorithm that builds a stack of proteins with a unique
+    assignment of amino acids for each instance.
     """
     def __init__(self, protein: Protein) -> None:
         self.protein = copy.deepcopy(protein)
@@ -23,7 +24,7 @@ class DepthFirst:
 
     def get_next_state(self) -> Protein:
         """
-        Method that gets the next state from the list of states.
+        Returns the next state from the stack of states.
         """
         return self.states.pop()
 
@@ -31,11 +32,10 @@ class DepthFirst:
         """
         Creates all possible child-states and adds them to the list of states.
         """
-        # Retrieve all valid possible values for the node.
+        # Retrieve all valid possible directions for the amino.
         directions = amino.get_possibilities()
-        #print(directions)
 
-        # Add an instance of the graph to the stack, with each unique value assigned to the node.
+        # Add an instance of the protein to the stack,
         for direction in directions:
             new_protein = copy.deepcopy(protein)
             new_protein.aminos[amino.i - 1].direction = direction
@@ -56,7 +56,7 @@ class DepthFirst:
             self.best_value = new_value
             print(f"New best value: {self.best_value}")
 
-    def run(self, outputfile: str, max_seconds: int = float('inf')) -> None:
+    def run(self, outputfile: str, max_seconds: float = float('inf')) -> None:
         """
         Runs the algorithm untill all possible states are visited.
         """
