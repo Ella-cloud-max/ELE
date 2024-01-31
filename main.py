@@ -33,7 +33,7 @@ def random_plus_func(input_file):
 def greedy_func(input_file):
     # ------------- greedy-random algorithm -----------
     test_protein = protein.Protein(input_file)
-    greedy.greedy(test_protein)
+    greedy.greedy_random_algorithm(test_protein)
 
     return test_protein
 
