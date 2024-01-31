@@ -81,7 +81,6 @@ def setup_simulated_annealing(protein: 'Protein', start_temperature: int,
         cooling rateinterval and limit for the having no progress
     post: returns a protein class object
     """
-    protein = Protein(f"proteins/{protein_file_name}")
     random_plus.random_assignment_protein(protein)
     counter = 0
     best_protein = deepcopy(protein)
