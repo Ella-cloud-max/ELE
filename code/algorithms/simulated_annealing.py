@@ -1,10 +1,6 @@
 from code.classes.protein import Protein
-<<<<<<< HEAD
-from code.algorithms import randomise
-=======
 from code.algorithms import random_plus
-from hill_climb import create_options, try_direction
->>>>>>> 4e3aeb0f34808e59ccad526df2b42b98174638f7
+from code.algorithms.hill_climb import create_options, try_direction
 from math import e as e
 import random
 from copy import deepcopy

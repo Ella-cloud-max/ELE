@@ -90,7 +90,6 @@ if __name__ == "__main__":
     elif algorithm == "breadth":
         test_protein = depth_first_func(input_file)
     elif algorithm == "hill_climb":
-<<<<<<< HEAD
         loop_amount = 300
         test_protein = hill_climb_func(input_file, loop_amount)
     elif algorithm == "simulated_annealing":
@@ -101,16 +100,6 @@ if __name__ == "__main__":
         test_protein = simulated_annealing_func(input_file, loop_amount,
                                     start_temperature, cooling_rate_interval,
                                     no_progress_limit)
-=======
-        test_protein = hill_climb_func(input_file)
-    elif algorithm == "simulated_annealing":
-        start_temperature = int(sys.argv[3])
-        cooling_rate_interval = int(sys.argv[4])
-        no_progress_limit = int(sys.argv[5])
-        test_protein = simulated_annealing_func(input_file, start_temperature,
-                                                cooling_rate_interval,
-                                                no_progress_limit)
->>>>>>> 48320f451556d8581a2c9f21585443b98e4d89cd
  
     if sys.argv[3] == "experiment":
         result = pickle.dumps(test_protein)
