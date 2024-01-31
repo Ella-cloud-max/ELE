@@ -1,6 +1,6 @@
 from code.classes.protein import Protein
 import random
-from code.algorithms import randomise
+from code.algorithms import random_plus
 from typing import Any
 from copy import deepcopy
 
@@ -179,7 +179,7 @@ def hill_climb(protein: 'Protein') -> tuple['Protein', int]:
     return current_protein
 
 
-def setup_hill_climb(protein_file_name: str, loop_amount: int) -> 'Protein':
+def setup_hill_climb(protein: 'Protein') -> 'Protein':
     """
     Initialise hill climb function and create a random structure
     of the loaded protein
@@ -189,15 +189,15 @@ def setup_hill_climb(protein_file_name: str, loop_amount: int) -> 'Protein':
     post: returns the best protein found, as a protein class object
     """
     protein = Protein(protein_file_name)
-    randomise.random_assignment_protein(protein)
+    random_plus.random_assignment_protein(protein)
     counter = 0
     best_protein = deepcopy(protein)
-    while counter < loop_amount:
+    while True:
         current_solution, current_solution_score = hill_climb(protein)
         if current_solution_score < best_protein.count_score():
             best_protein = deepcopy(current_solution)
         counter += 1
         #print(f"protein {counter}, score {current_solution_score}")
         if counter != loop_amount:
-            randomise.random_assignment_protein(protein)
+            randomise_plus.random_assignment_protein(protein)
     return best_protein
