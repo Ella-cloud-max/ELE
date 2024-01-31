@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jan 15 11:21:32 2024
-
-@author: Eric van Huizen
-"""
-
 from code.classes.protein import Protein
 from code.algorithms import random_plus
 from hill_climb import create_options, try_direction

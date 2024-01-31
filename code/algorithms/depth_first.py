@@ -14,13 +14,13 @@ class DepthFirst:
     assignment of amino acids for each instance.
     """
     def __init__(self, protein: Protein) -> None:
-        self.protein = copy.deepcopy(protein)
-        self.directions = [1, -1, 2, -2]
+        self.protein: Protein = copy.deepcopy(protein)
+        self.directions: list[int] = [1, -1, 2, -2]
 
-        self.states = [copy.deepcopy(self.protein)]
+        self.states: list[Protein] = [copy.deepcopy(self.protein)]
 
         self.best_solution: Any = None
-        self.best_value = float('inf')
+        self.best_value: float = float('inf')
 
     def get_next_state(self) -> Protein:
         """
@@ -33,7 +33,7 @@ class DepthFirst:
         Creates all possible child-states and adds them to the list of states.
         """
         # Retrieve all valid possible directions for the amino.
-        directions = amino.get_possibilities()
+        directions: list[int] = amino.get_possibilities()
 
         # Add an instance of the protein to the stack,
         for direction in directions:
@@ -79,10 +79,6 @@ class DepthFirst:
             # Otherwise check the score
             else:
                 self.check_solution(new_protein, outputfile)
-                
-                # Stop if we find a solution we want
-                # if self.best_value == -1:
-                    # break
 
         # Update the input protein with the best result found.
         self.protein = self.best_solution
