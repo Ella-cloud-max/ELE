@@ -12,10 +12,10 @@ import pickle
 def baseline_func(input_file):
     # ------------- baseline random algorithm -------------
     test_protein = protein.Protein(input_file)
-    baseline.baseline_random_protein(test_protein)
+    baseline.baseline_random_algorithm(test_protein)
 
     while test_protein.check_validity() == False:
-        baseline.baseline_random_protein(test_protein)
+        baseline.baseline_random_algorithm(test_protein)
     
     return test_protein
 
@@ -63,6 +63,7 @@ if __name__ == "__main__":
     algorithm = f"{sys.argv[1]}"
     input_file = f"proteins/{sys.argv[2]}.csv"
     
+
     if algorithm == "baseline":
         test_protein = baseline_func(input_file)
     elif algorithm == "random":
@@ -73,11 +74,12 @@ if __name__ == "__main__":
         test_protein = depth_first_func(input_file)
     elif algorithm == "breadth":
         test_protein = depth_first_func(input_file)
-
+ 
     
-        #test_protein.print_output("random_improved.csv")
-    #visualisation.print_folded_protein("output/random_improved.csv")
-    
-    result = pickle.dumps(test_protein)
-
-    sys.stdout.buffer.write(result)
+    if sys.argv[3] == "experiment":
+        result = pickle.dumps(test_protein)
+        sys.stdout.buffer.write(result)
+    else:
+        output_file = f"{sys.argv[3]}.csv"
+        test_protein.print_output(output_file)
+        visualisation.print_folded_protein(f"output/{output_file}")

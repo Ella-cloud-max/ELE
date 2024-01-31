@@ -117,7 +117,7 @@ def coord_types(output: list[list[Any]], soort: str) -> list[list[Any]]:
 
 def count_score(stars, plus):
     """ Return the score of the protein"""
-    return len(set(stars)) + len(set(plus)) * 5
+    return (len(set(stars)) + len(set(plus)) * 5) * -1
 
 def create_plot(output, plot_name):
     """ Create a plot of the protein """
