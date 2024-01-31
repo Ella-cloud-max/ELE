@@ -35,9 +35,13 @@ class Amino():
         if self.previous_amino == None:
             return
         if abs(self.previous_amino.direction) == 1:
-            self.coordinates = (self.previous_amino.coordinates[0] + self.previous_amino.direction, self.previous_amino.coordinates[1])
+            self.coordinates = (self.previous_amino.coordinates[0] +
+                                self.previous_amino.direction,
+                                self.previous_amino.coordinates[1])
         elif abs(self.previous_amino.direction) == 2:
-            self.coordinates = (self.previous_amino.coordinates[0], self.previous_amino.coordinates[1] + (int(self.previous_amino.direction / 2)))
+            self.coordinates = (self.previous_amino.coordinates[0],
+                                self.previous_amino.coordinates[1] +
+                                (int(self.previous_amino.direction / 2)))
 
     def get_possibilities(self) -> list[int]:
         """
@@ -59,9 +63,13 @@ class Amino():
 
         unavailable_options = set()
         for i in available_options:
-            if abs(i) == 1 and (previous_coordinates[0] + i, previous_coordinates[1]) in unsave_coordinates:
+            if abs(i) == 1 and (previous_coordinates[0] + i,
+                                previous_coordinates[1]) in \
+                                    unsave_coordinates:
                 unavailable_options.add(i)
-            elif abs(i) == 2 and (self.previous_amino.coordinates[0], self.previous_amino.coordinates[1] + (i/2)) in unsave_coordinates:
+            elif abs(i) == 2 and (self.previous_amino.coordinates[0],
+                     self.previous_amino.coordinates[1] + (i/2)) in \
+                        unsave_coordinates:
                 unavailable_options.add(i)
         options = list(available_options - unavailable_options)
         return options
