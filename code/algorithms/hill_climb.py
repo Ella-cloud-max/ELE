@@ -188,16 +188,16 @@ def setup_hill_climb(protein_file_name: str, loop_amount: int) -> 'Protein':
          and an integer that limits the amount of iterations
     post: returns the best protein found, as a protein class object
     """
-    protein = Protein(f"proteins/{protein_file_name}")
+    protein = Protein(protein_file_name)
     randomise.random_assignment_protein(protein)
     counter = 0
     best_protein = deepcopy(protein)
     while counter < loop_amount:
         current_solution, current_solution_score = hill_climb(protein)
-        if current_solution_score < best_protein[0].count_score():
+        if current_solution_score < best_protein.count_score():
             best_protein = deepcopy(current_solution)
         counter += 1
-        print(f"protein {counter}, score {current_solution_score}")
+        #print(f"protein {counter}, score {current_solution_score}")
         if counter != loop_amount:
             randomise.random_assignment_protein(protein)
     return best_protein
