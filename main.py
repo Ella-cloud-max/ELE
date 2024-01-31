@@ -1,7 +1,8 @@
 import sys
 
 from code.classes import protein, amino
-from code.algorithms import baseline, random_plus, depth_first, breadth_first
+from code.algorithms import baseline, random_plus, depth_first, breadth_first,\
+    hill_climb, simulated_annealing
 from code.visualisation import visualisation
 import code.algorithms.greedy as greedy
 import pickle
@@ -57,13 +58,27 @@ def breadth_first_func(input_file):
 
     return breadth.protein
 
+def hill_climb_func(input_file: str, loop_amount: int) -> 'protein':
+    # ------------- depth-first algorithm -------------
+    current_protein = protein.Protein(input_file)
+    hill_climb.setup_hill_climb(current_protein)
+    return current_protein
+
+def simulated_annealing_func(input_file: str, loop_amount: int, 
+                             temperature: int, cooling_rate_interval: int,
+                             no_progress_limit: int) -> 'protein':
+    # ------------- depth-first algorithm -------------
+    current_protein = protein.Protein(input_file)
+    simulated_annealing.setup_simulated_annealing(current_protein, loop_amount)
+    return current_protein
 
 if __name__ == "__main__":
     
     algorithm = f"{sys.argv[1]}"
     input_file = f"proteins/{sys.argv[2]}.csv"
+    loop_amount = int(sys.argv[3])
     
-
+    
     if algorithm == "baseline":
         test_protein = baseline_func(input_file)
     elif algorithm == "random":
@@ -74,8 +89,16 @@ if __name__ == "__main__":
         test_protein = depth_first_func(input_file)
     elif algorithm == "breadth":
         test_protein = depth_first_func(input_file)
+    elif algorithm == "hill_climb":
+        test_protein = hill_climb_func(input_file, loop_amount)
+    elif algorithm == "simulated_annealing":
+        start_temperature = int(sys.argv[4])
+        cooling_rate_interval = int(sys.argv[5])
+        no_progress_limit = int(sys.argv[6])
+        test_protein = simulated_annealing_func(input_file, loop_amount,
+                                    start_temperature, cooling_rate_interval,
+                                    no_progress_limit)
  
-    
     if sys.argv[3] == "experiment":
         result = pickle.dumps(test_protein)
         sys.stdout.buffer.write(result)
