@@ -179,7 +179,7 @@ def hill_climb(protein: 'Protein') -> tuple['Protein', int]:
     return current_protein
 
 
-def setup_hill_climb(protein: 'Protein') -> 'Protein':
+def setup_hill_climb(protein_file_name: 'Protein', loop_amount) -> 'Protein':
     """
     Initialise hill climb function and create a random structure
     of the loaded protein
@@ -188,14 +188,16 @@ def setup_hill_climb(protein: 'Protein') -> 'Protein':
          and an integer that limits the amount of iterations
     post: returns the best protein found, as a protein class object
     """
+
+    protein = Protein(f"{protein_file_name}")
     random_plus.random_assignment_protein(protein)
     counter = 0
     best_protein = deepcopy(protein)
-    while True:
+    while counter < loop_amount:
         current_solution, current_solution_score = hill_climb(protein)
-        if current_solution_score < best_protein[0].count_score():
+        if current_solution_score < best_protein.count_score():
             best_protein = deepcopy(current_solution)
         counter += 1
-        print(f"protein {counter}, score {current_solution_score}")
-        random_plus.random_assignment_protein(protein)
+        if counter != loop_amount:
+            random_plus.random_assignment_protein(protein)
     return best_protein
