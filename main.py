@@ -1,74 +1,83 @@
 import sys
 
 from code.classes import protein, amino
-from code.algorithms import baseline, randomise, depth_first
+from code.algorithms import baseline, randomise, depth_first, breadth_first
 from code.visualisation import visualisation
 import code.algorithms.greedy as greedy
 import pickle
 
+# Use example: python3 main.py greedy protein1
+
 
 def baseline_func(input_file):
     # ------------- baseline random algorithm -------------
-
-    print("BASELINE")
-
     test_protein = protein.Protein(input_file)
     baseline.baseline_random_protein(test_protein)
 
     while test_protein.check_validity() == False:
         baseline.baseline_random_protein(test_protein)
-
-    test_protein.print_output("random_baseline.csv")
-    visualisation.print_folded_protein(f"output/main/random_baseline.csv")
+    
+    return test_protein
 
 def random_plus_func(input_file):
     # ------------- adaptations to random algo -------------
-
-    print("RANDOM+")
-
     test_protein = protein.Protein(input_file)
     randomise.random_assignment_protein(test_protein)
 
     while test_protein.check_validity() == False:
         randomise.random_assignment_protein(test_protein)
+    
+    return test_protein
 
-    test_protein.print_output("main/random_improved.csv")
-    visualisation.print_folded_protein(f"output/main/random_improved.csv")
 
 def greedy_func(input_file):
     # ------------- greedy-random algorithm -----------
-
     test_protein = protein.Protein(input_file)
     greedy.greedy(test_protein)
 
     return test_protein
-    # test_protein.print_output("main/greedy_random.csv")
-    # visualisation.print_folded_protein(f"output/main/greedy_random.csv")
 
 def depth_first_func(input_file):
     # ------------- depth-first algorithm -------------
-
-    print("DEPTH-FIRST")
-
     test_protein = protein.Protein(input_file)
     depth = depth_first.DepthFirst(test_protein)
 
     # Run the algoritm for x amount of seconds
     depth.run("depthfirst_output.csv")
 
-    print(f"Value of the configuration after Depth First: "
-            f"{depth.protein.count_score()}")
+    return depth.protein
 
-    depth.protein.print_output("output_ella.csv")
-    visualisation.print_folded_protein("output/output_ella.csv")
+def breadth_first_func(input_file):
+    # ------------- depth-first algorithm -------------
+    test_protein = protein.Protein(input_file)
+    breadth = breadth_first.BreadthFirst(test_protein)
+
+    # Run the algoritm for x amount of seconds
+    breadth.run("breadthfirst_output.csv")
+
+    return breadth.protein
 
 
 if __name__ == "__main__":
+    
+    algorithm = f"{sys.argv[1]}"
+    input_file = f"proteins/{sys.argv[2]}.csv"
+    
+    if algorithm == "baseline":
+        test_protein = baseline_func(input_file)
+    elif algorithm == "random":
+        test_protein = random_plus_func(input_file)
+    elif algorithm == "greedy":
+        test_protein = greedy_func(input_file)
+    elif algorithm == "depth":
+        test_protein = depth_first_func(input_file)
+    elif algorithm == "breadth":
+        test_protein = depth_first_func(input_file)
 
-    input_file = f"{sys.argv[1]}"
-    test_protein = greedy_func(input_file)
-
+    
+        #test_protein.print_output("random_improved.csv")
+    #visualisation.print_folded_protein("output/random_improved.csv")
+    
     result = pickle.dumps(test_protein)
 
     sys.stdout.buffer.write(result)
-    

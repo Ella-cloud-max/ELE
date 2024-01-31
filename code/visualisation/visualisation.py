@@ -142,5 +142,5 @@ def print_folded_protein(filepath: str) -> None:
     
 if __name__ == "__main__":
     filename = sys.argv[1]
-    filepath = "output/" + filename
+    filepath = "output/" + filename + ".csv"
     print_folded_protein(filepath)

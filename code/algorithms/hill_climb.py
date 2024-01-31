@@ -5,13 +5,17 @@ Created on Tue Jan 23 09:55:16 2024
 @author: Eric van Huizen
 """
 
+from code.classes.protein import Protein
 import random
 from code.algorithms import randomise
 from typing import Any
 import copy
 
 
-def create_pull_options(protein):
+def create_pull_options(protein) -> tuple[list[int], list[int], list[str]]:
+    """
+    
+    """
     directions_list: list = []
     id_list: list = []
     mutation_list: list[str] = []
@@ -25,7 +29,7 @@ def create_pull_options(protein):
             mutation_list.append("pull")
     return (id_list, directions_list, mutation_list)
 
-def create_rotate_options(protein):
+def create_rotate_options(protein) -> tuple[list[int], list[int], list[str]]:
     directions_list: list[int] = []
     id_list: list[int] = []
     mutation_list: list[str] = []
@@ -39,7 +43,7 @@ def create_rotate_options(protein):
             mutation_list.append("rotate")
     return (id_list, directions_list, mutation_list)
 
-def create_change_direction_options(protein):
+def create_change_direction_options(protein) -> tuple[list[int], list[int], list[str]]:
     directions_list: list = []
     id_list: list = []
     mutation_list: list[str] = []
@@ -53,7 +57,7 @@ def create_change_direction_options(protein):
             mutation_list.append("change direction")
     return (id_list, directions_list, mutation_list)
 
-def create_options(protein):
+def create_options(protein) -> tuple[list[int], list[int], list[str]]:
     id_list, directions_list, mutation_list = create_pull_options(protein)
     rotate_options = create_rotate_options(protein)
     change_direction_options = create_change_direction_options(protein)
@@ -62,14 +66,14 @@ def create_options(protein):
     mutation_list = mutation_list + rotate_options[2] + change_direction_options[2]
     return (id_list, directions_list, mutation_list)
 
-def mutate_direction_rotate(amino_id, current_protein, new_direction):
+def mutate_direction_rotate(amino_id, current_protein, new_direction) -> None:
     amino_change = current_protein.aminos[amino_id]
     old_direction = amino_change.direction
     amino_change.direction = new_direction
     current_protein.rotate(amino_id, old_direction)
     current_protein.change_coordinates(amino_id)
 
-def mutate_direction_pull(amino_id, current_protein, new_direction):
+def mutate_direction_pull(amino_id, current_protein, new_direction) -> None:
     amino_change = current_protein.aminos[amino_id]
     if amino_id != 0 and amino_id != current_protein.size - 2:
         amino_change.next_amino.direction = amino_change.direction
@@ -87,9 +91,9 @@ def try_direction(protein, new_direction, mutation_option, amino_id):
         copy_protein.change_coordinates(amino_id)
     if copy_protein.check_validity():
         return (True, copy_protein.count_score(), copy_protein)
-    return (False, 1)
+    return (False, 1, None)
 
-def hill_climb(protein) -> tuple[Any]:
+def hill_climb(protein) -> tuple['Protein', int]:
     current_protein = (copy.deepcopy(protein), protein.count_score())
     while True:
         id_list, directions_list, mutation_list = create_options(current_protein[0])
@@ -110,7 +114,7 @@ def hill_climb(protein) -> tuple[Any]:
             return current_protein
     return current_protein
 
-def setup_hill_climb(protein_file_name, loop_amount):
+def setup_hill_climb(protein_file_name, loop_amount) -> 'Protein':
     protein = Protein(f"proteins/{protein_file_name}")
     randomise.random_assignment_protein(protein)
     counter = 0
