@@ -1,7 +1,7 @@
 import sys
 
 from code.classes import protein, amino
-from code.algorithms import baseline, randomise, depth_first, breadth_first,\
+from code.algorithms import baseline, random_plus, depth_first, breadth_first,\
     hill_climb, simulated_annealing
 from code.visualisation import visualisation
 import code.algorithms.greedy as greedy
@@ -23,10 +23,10 @@ def baseline_func(input_file):
 def random_plus_func(input_file):
     # ------------- adaptations to random algo -------------
     test_protein = protein.Protein(input_file)
-    randomise.random_assignment_protein(test_protein)
+    random_plus.random_assignment_protein(test_protein)
 
     while test_protein.check_validity() == False:
-        randomise.random_assignment_protein(test_protein)
+        random_plus.random_assignment_protein(test_protein)
     
     return test_protein
 

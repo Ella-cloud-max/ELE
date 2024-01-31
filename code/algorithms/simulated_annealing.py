@@ -1,5 +1,10 @@
 from code.classes.protein import Protein
+<<<<<<< HEAD
 from code.algorithms import randomise
+=======
+from code.algorithms import random_plus
+from hill_climb import create_options, try_direction
+>>>>>>> 4e3aeb0f34808e59ccad526df2b42b98174638f7
 from math import e as e
 import random
 from copy import deepcopy
@@ -81,7 +86,8 @@ def setup_simulated_annealing(protein: 'Protein', start_temperature: int,
         cooling rateinterval and limit for the having no progress
     post: returns a protein class object
     """
-    randomise.random_assignment_protein(protein)
+    protein = Protein(f"proteins/{protein_file_name}")
+    random_plus.random_assignment_protein(protein)
     counter = 0
     best_protein = deepcopy(protein)
     while True:
@@ -92,7 +98,7 @@ def setup_simulated_annealing(protein: 'Protein', start_temperature: int,
             best_protein = deepcopy(current_solution)
         counter += 1
         print(f"protein {counter}, score {current_solution_score}")
-        randomise.random_assignment_protein(protein)
+        random_plus.random_assignment_protein(protein)
     id_list, directions_list, mutation_list = create_options(best_protein)
     score_list = []
     protein_list = []
