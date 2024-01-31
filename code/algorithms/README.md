@@ -18,7 +18,7 @@ Het depth first algoritme is een constructief algoritme, dat systematisch door d
 Het breadth first algoritme is net als het depth first een constructief algoritme dat systematisch door de mogelijke opvouwingen van een proteine gaat. Het gedraagt zich vergelijkbaar met een depth first algoritme, maar met een belangrijk verschil: het maakt gebruik van een queue in plaats van een stack. Dat betekend dat eerste alle opties voor the eerste aminozuur in de queue worden geplaatst, vervolgens die van de tweede enzovoort. Het grootte verschil is dat een breadth first algoritme gebruikt maakt van een queue, waardoor alle mogelijke opties eerst worden opgeslagen, en er geen sprake is van teruggaan.
 
 ### Hill climb
-Hill climb is een iteratief algoritme. Dit betekend dat het begint met een start opvouwing en probeert deze vervolgens te verbeteren. Dit wordt gedaan aan de hand van twee mutaties rotate en pull moves. \
+Hill climb is een iteratief algoritme. Dit betekent dat het begint met een start opvouwing en probeert deze vervolgens te verbeteren. Dit wordt gedaan aan de hand van twee mutaties rotate en pull moves. \
 <img src="/docs/pull_moves.png" height="200px">
 <img src="/docs/rotate_moves.png" height="200px"> \
 *De verschillende mutaties: pull moves (links) en rotate moves (rechts)*
