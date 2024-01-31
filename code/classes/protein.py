@@ -16,9 +16,16 @@ class Protein():
         
 
     def make_aminos(self, input_file: str) -> dict[int, Any]:
-        """ Add aminos to a protein """
+        """
+        Adds aminos to a protein. The input file can be a known solution of a
+        protein that is re-made or a string of characters that is initialised
+        into a protein.
+        """
         if input_file[:6] == "output":
             return self.import_structure(input_file)
+        
+        # if the input is a string each amino is placed at coordinates = (0, 0)
+        # with direction = 0.
         aminos = {}
         structure = [*str(*open(input_file))]
         
@@ -74,15 +81,26 @@ class Protein():
         return aminos
     
     def get_empty_amino(self) -> Any:
-        """ Get the first amino that does not have coordinates yet""" 
+        """
+        Returns the first amino that is still in it's initialised state (has
+        coordinates = (0, 0) but is not the very first amino). Returns None if
+        all amino's have been moved.
+        """
         for amino in self.aminos.values():
             if amino.coordinates == (0, 0) and amino.i != 0:
                 return amino
         return None
 
-    def check_validity(self) -> bool:
-        """ Check that no aminos have the same coordinates """
-        check_amino = self.aminos[self.i_list[-1]]
+    def check_validity(self, *amino) -> bool:
+        """
+        Returns True if the input amino (or the last amino if there is no
+        input) does not have the same coordinates as any of the previous
+        aminos and the protein is hence valid thus far.
+        """
+        if len(amino) == 0:
+            check_amino = self.aminos[self.i_list[-1]]
+        else:
+            check_amino = amino[0]
         while check_amino != None:
             check_previous = check_amino.previous_amino
             while check_previous != None:
@@ -92,59 +110,22 @@ class Protein():
             check_amino = check_amino.previous_amino
         return True
 
-    def count_score(self) -> Union[bool, int]:
-        """ Count and update the score of the protein """
-        if not self.check_validity():
-            return False
+    def count_score(self, *amino) -> Union[bool, int]:
+        """
+        Returns the value of the stability score up to the inputted amino (or
+        the last amino if no input argument) or returns False if the protein is
+        not valid.
+        """
+        if len(amino) == 0:
+            if not self.check_validity():
+                return False
+            count_amino = self.aminos[self.i_list[-1]]
+        else:
+            if not self.check_validity(amino[0]):
+                return False
+            count_amino = amino[0]
         
         self.score = 0
-        count_amino = self.aminos[self.i_list[-1]]
-        while count_amino != None:
-            # Check if there are H*H or H*C bonds (also does -1 if there is a C*C bond)
-            if count_amino.soort == "H" or count_amino.soort == "C":
-                check_previous = count_amino.previous_amino
-                while check_previous != None:
-                    if (abs(check_previous.coordinates[0] - count_amino.coordinates[0]) + abs(check_previous.coordinates[1] - count_amino.coordinates[1])) == 1 \
-                        and (check_previous.soort == "H" or check_previous.soort == "C") \
-                        and abs(check_previous.i - count_amino.i) != 1:
-                        self.score -= 1
-                    check_previous = check_previous.previous_amino
-            
-            # Check if there are C*C bonds (minus an extra -4)
-            if count_amino.soort == "C":
-                check_previous = count_amino.previous_amino
-                while check_previous != None:
-                    if (abs(check_previous.coordinates[0] - count_amino.coordinates[0]) + abs(check_previous.coordinates[1] - count_amino.coordinates[1])) == 1 \
-                        and check_previous.soort == "C" \
-                        and abs(check_previous.i - count_amino.i) != 1:
-                        self.score -= 4
-                    check_previous = check_previous.previous_amino
-            
-            count_amino = count_amino.previous_amino
-        return self.score
-    
-    def check_validity_amino(self, amino) -> bool:
-        """
-        Check that amino does not have the same coordinates as any
-        previous amino.
-        """
-        check_amino = amino
-        while check_amino != None:
-            check_previous = check_amino.previous_amino
-            while check_previous != None:
-                if check_amino.coordinates == check_previous.coordinates:
-                    return False
-                check_previous = check_previous.previous_amino
-            check_amino = check_amino.previous_amino
-        return True
-
-    def count_score_amino(self, amino) -> Union[bool, int]:
-        """ Count and update the score of the protein """
-        if not self.check_validity_amino(amino):
-            return False
-        
-        self.score = 0
-        count_amino = amino
         while count_amino != None:
             # Check if there are H*H or H*C bonds (also does -1 if there is a C*C bond)
             if count_amino.soort == "H" or count_amino.soort == "C":
@@ -170,7 +151,9 @@ class Protein():
         return self.score
 
     def print_output(self, output_file_name: str) -> None:
-        """ Print the output of a protein to a file"""
+        """
+        Writes the type and direction of each amino in the protein to a file.
+        """
         output_file = open(f"output/{output_file_name}", "w")
         output_file.write("amino,fold\n")
         for amino in self.aminos.values():

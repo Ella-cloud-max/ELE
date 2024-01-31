@@ -21,7 +21,7 @@ def greedy(protein):
                 amino.reset_position()
                 amino.previous_amino.reset_position()
                 continue
-            amino.previous_amino.direction = random.choice(possibilities)
+            amino.previous_amino.change_direction(random.choice(possibilities))
             amino.change_coordinates()
             continue
 
@@ -39,13 +39,13 @@ def greedy(protein):
         for item in possibilities:
             amino.previous_amino.change_direction(item)
             amino.change_coordinates()
-            if protein.count_score_amino(amino) < minimum_score:
-                minimum_score = protein.count_score_amino(amino)
+            if protein.count_score(amino) < minimum_score:
+                minimum_score = protein.count_score(amino)
 
         for item in possibilities:
             amino.previous_amino.change_direction(item)
             amino.change_coordinates()
-            if protein.count_score_amino(amino) == minimum_score:
+            if protein.count_score(amino) == minimum_score:
                 good_possibilities.append(item)
 
         amino.previous_amino.change_direction(random.choice(good_possibilities))

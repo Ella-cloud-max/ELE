@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import pickle, codecs
 from unidecode import unidecode
 from code.visualisation import visualisation
+from histogram import histogram
 
 input_protein = sys.argv[1]  
 start = time.time()
@@ -36,10 +37,4 @@ while time.time() - start < 100:
 best_protein.print_output(f"experiment_best_{input_protein}.csv")
 visualisation.print_folded_protein(f"output/experiment_best_{input_protein}.csv")
 
-bins = [x + 0.5 for x in set(sorted(list_scores))]
-bins.append(min(bins) - 1)
-bins = sorted(bins)
-
-plt.hist(list_scores, bins)
-plt.xlim(min(list_scores) - 1.5, max(list_scores) + 1.5)
-plt.show()
+histogram(list_scores)
