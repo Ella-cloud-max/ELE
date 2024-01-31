@@ -1,16 +1,13 @@
 import subprocess
 import time
 import sys
-from code.algorithms import baseline
-from code.classes import protein
-import matplotlib.pyplot as plt
 import pickle, codecs
 from unidecode import unidecode
-from code.visualisation import visualisation
-from histogram import histogram
+from code.visualisation import visualisation, histogram
 
 algorithm = sys.argv[1]
-input_protein = sys.argv[2]  
+input_protein = sys.argv[2] 
+output_file = sys.argv[1] + "_" + sys.argv[2]
 
 start = time.time()
 n_runs = 0
@@ -20,7 +17,7 @@ min_score = 0
 
 while time.time() - start < 100:
     print(f"run: {n_runs}")
-    result = subprocess.Popen(["timeout", "5", "python3", "main.py", algorithm, f"{input_protein}"], stdout=subprocess.PIPE)
+    result = subprocess.Popen(["timeout", "10", "python3", "main.py", algorithm, f"{input_protein}", "experiment"], stdout=subprocess.PIPE)
     output, _ = result.communicate()
 
     if output == "":
@@ -36,7 +33,7 @@ while time.time() - start < 100:
 
     n_runs += 1
 
-best_protein.print_output(f"experiment_best_{input_protein}.csv")
-visualisation.print_folded_protein(f"output/experiment_best_{input_protein}.csv")
+best_protein.print_output(f"experiment/experiment_{output_file}.csv")
+visualisation.print_folded_protein(f"output/experiment/experiment_{output_file}.csv")
 
-histogram(list_scores)
+histogram.histogram(list_scores, output_file)
