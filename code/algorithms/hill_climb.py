@@ -193,7 +193,7 @@ def setup_hill_climb(protein: 'Protein') -> 'Protein':
     best_protein = deepcopy(protein)
     while True:
         current_solution, current_solution_score = hill_climb(protein)
-        if current_solution_score < best_protein[0].count_score():
+        if current_solution_score < best_protein.count_score():
             best_protein = deepcopy(current_solution)
         counter += 1
         print(f"protein {counter}, score {current_solution_score}")
