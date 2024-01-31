@@ -1,19 +1,16 @@
-# Author: Liesbet Ooghe
-# 
-# Baseline algorithm. Amino acids are created one by one and given a random
-# direction. Once the whole protein is done, t
-
 import random
 
 def baseline_random_algorithm(protein):
     """
-    Changes the direction of each amino of the inputted protien randomly to any of
-    {-2, -1, 1, 2} and changes the coordinates.
+    Changes the direction of each amino of the inputted protein randomly to any
+    of {-2, -1, 1, 2} and changes the coordinates (according to the direction
+    of the previous amino).
     
-    in: an protein class objects
-    out: the amino class objects direction and coordinates have been changed
-
+    pre: a protein class objects
+    post: the directions and coordinates of the amino class objects within the
+    protein have been changed.
     """
+
     for amino in protein.aminos.values():
 
         # the last amino in the protein gets direction 0

@@ -23,8 +23,8 @@ class Amino():
         """
         Changes the direction of the amino.
 
-        in: direction is an int of {-2, -1, 1, 2}
-        out: self.direction is direction
+        pre: direction is an int of {-2, -1, 1, 2}
+        post: self.direction is direction
         """
 
         self.direction = direction
@@ -50,7 +50,7 @@ class Amino():
         """
         Get a list of the possible directions an amino can go to.
 
-        out: a list of integers, a subset of [-2, -1, 1, 2]
+        post: a list of integers, a subset of [-2, -1, 1, 2]
         """
 
         available_options = set([-2, -1, 1, 2])
@@ -67,7 +67,8 @@ class Amino():
         unavailable_options = set()
         for i in available_options:
             if abs(i) == 1 and (previous_coordinates[0] + i,
-                                previous_coordinates[1]) in unsave_coordinates:
+                                previous_coordinates[1]) in \
+                                    unsave_coordinates:
                 unavailable_options.add(i)
             elif abs(i) == 2 and (self.previous_amino.coordinates[0],
                                   self.previous_amino.coordinates[1] +

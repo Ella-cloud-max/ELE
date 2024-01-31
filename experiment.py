@@ -1,8 +1,7 @@
 import subprocess
 import time
 import sys
-import pickle, codecs
-from unidecode import unidecode
+import pickle
 from code.visualisation import visualisation, histogram
 
 algorithm = sys.argv[1]

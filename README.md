@@ -16,21 +16,21 @@ Als twee hydrofobe of cysteine aminozuren naast elkaar liggen ontstaat er een â€
 Om dit doel te behalen zijn er verschillende soorten algoritmes geschreven. Dit zijn random, constructieve en iteratieve algoritmes. [**Meer informatie over de algorithmes kan hier gevonden worden.**](https://github.com/Ella-cloud-max/ELE/tree/main/code/algorithms)
 
 #### Score
-De stabiliteits score wordt berekend door de hoeveelheid bonds die ontstaan door een vouwing te tellen. H-H en H-C bonds hebben een stabiliteits score van -1, terwijl C-C bonds een stabiliteits score hebben van -5.
+De stabiliteits score wordt berekend door de hoeveelheid bonds die ontstaan door een vouwing te tellen. H-H en H-C bonds leveren een stabiliteits score van -1 op, terwijl C-C bonds een stabiliteits score opleveren van -5.
 
 ## Gebruik
 Download de nodigde python modules met onderstaand command:
 ```
- python3 -m pip install -r requirements.txt
+ python -m pip install -r requirements.txt
 ```
 
 Het volgende commando kan gebruikt worden om een van de algoritme te draaien
 
 ```
-python main.py algorithm input_filename output_filename
+python main.py algoritme input_filename output_filename
 ```
 
-Voor de algorithmes kan gekozen worden uit de volgende opties:
+Voor de algoritmes kan gekozen worden uit de volgende opties:
 - baseline
 - random
 - greedy
@@ -72,9 +72,9 @@ python code/visualisation/plot.py example_output visualisation_output_file
 Om een experiment te runnen gebruik het volgende command:
 
 ```
-python experiment.py algorithm input_filename
+python experiment.py algoritme input_filename
 ```
-Voor 100 seconden wordt het algoritm zo vaak als mogelijk is gedraaid. Een lijst met alle uitkomsten wordt in het bestand experiment_algorithm_input_filename.csv opgeslagen in het mapje output/experiment. Een histogram van de output wordt in het bestand histogram_algorithm_input_filename.png opgeslagen in het zelfde mapje.
+Voor 100 seconden wordt het algoritm zo vaak als mogelijk is gedraaid. Een lijst met alle uitkomsten wordt in het bestand experiment_algoritme_input_filename.csv opgeslagen in het mapje output/experiment. Een histogram van de output wordt in het bestand histogram_algoritme_input_filename.png opgeslagen in het zelfde mapje.
 
 <img src="/docs/histogram_example.png" height="200px">
 
@@ -82,7 +82,7 @@ Voor 100 seconden wordt het algoritm zo vaak als mogelijk is gedraaid. Een lijst
 ## Structuur
 [/code](https://github.com/Ella-cloud-max/ELE/tree/main/code): alle code geschreven tijdens dit project \
 [/code/classes](https://github.com/Ella-cloud-max/ELE/tree/main/code/classes): bevat de benodigde classes voor dit project \
-[/code/algorithms](https://github.com/Ella-cloud-max/ELE/tree/main/code/algorithms): bevat de code voor algorithms \
+[/code/algorithms](https://github.com/Ella-cloud-max/ELE/tree/main/code/algorithms): bevat de code voor algoritmes \
 [/code/visualisation](https://github.com/Ella-cloud-max/ELE/tree/main/code/visualisation): bevat de code voor de visualisaties \
 [/docs](https://github.com/Ella-cloud-max/ELE/tree/main/docs): bestanden gemaakt tijdens dit bestanden \
 [/proteins](https://github.com/Ella-cloud-max/ELE/tree/main/proteins): bevat alle input bestanden met proteinen \
