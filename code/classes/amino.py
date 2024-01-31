@@ -21,8 +21,8 @@ class Amino():
         """
         Changes the direction of the amino.
 
-        in: direction is an int of {-2, -1, 1, 2}
-        out: self.direction is direction
+        pre: direction is an int of {-2, -1, 1, 2}
+        post: self.direction is direction
         """
 
         self.direction = direction
@@ -39,12 +39,11 @@ class Amino():
         elif abs(self.previous_amino.direction) == 2:
             self.coordinates = (self.previous_amino.coordinates[0], self.previous_amino.coordinates[1] + (int(self.previous_amino.direction / 2)))
 
-
     def get_possibilities(self) -> list[int]:
         """
         Get a list of the possible directions an amino can go to.
 
-        out: a list of integers, a subset of [-2, -1, 1, 2]
+        post: a list of integers, a subset of [-2, -1, 1, 2]
         """
         
         available_options = set([-2, -1, 1, 2])

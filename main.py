@@ -79,5 +79,4 @@ if __name__ == "__main__":
     #visualisation.print_folded_protein("output/random_improved.csv")
     
     result = pickle.dumps(test_protein)
-
     sys.stdout.buffer.write(result)
