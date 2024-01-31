@@ -18,8 +18,8 @@ while time.time() - start < 100:
     print(f"run: {n_runs}")
     result = subprocess.Popen(["timeout", "10", "python3.11", "main.py", algorithm, f"{input_protein}", "experiment"], stdout=subprocess.PIPE)
     output, _ = result.communicate()
-
-    if output == "":
+    
+    if output == b'':
         n_runs += 1
         continue
 

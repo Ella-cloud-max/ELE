@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 
 def histogram(list1, output_file):
+    """
+    Creates a histogram from a list of scores 
+    """
     title = output_file.replace("_", " ").title()
     bins = [x + 0.5 for x in set(sorted(list1))]
     bins.append(min(bins) - 1)
