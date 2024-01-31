@@ -8,7 +8,8 @@ import pickle, codecs
 from unidecode import unidecode
 from code.visualisation import visualisation
 
-input_protein = sys.argv[1]  
+algorithm = sys.argv[1]
+input_protein = sys.argv[2]  
 
 start = time.time()
 n_runs = 0
@@ -18,7 +19,7 @@ min_score = 0
 
 while time.time() - start < 100:
     print(f"run: {n_runs}")
-    result = subprocess.Popen(["timeout", "5", "python3", "main.py", "greedy", f"{input_protein}"], stdout=subprocess.PIPE)
+    result = subprocess.Popen(["timeout", "5", "python3", "main.py", algorithm, f"{input_protein}"], stdout=subprocess.PIPE)
     output, _ = result.communicate()
 
     if output == "":
