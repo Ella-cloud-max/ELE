@@ -115,7 +115,11 @@ def coord_types(output: list[list[Any]], soort: str) -> list[list[Any]]:
             output_coord.append(line)
     return output_coord
 
-def create_plot(output):
+def count_score(stars, plus):
+    """ Return the score of the protein"""
+    return (len(set(stars)) + len(set(plus)) * 5) * -1
+
+def create_plot(output, plot_name):
     """ Create a plot of the protein """
     # coordinates to the connections between amino
     x_as = [x[2][0] for x in output]
@@ -149,30 +153,34 @@ def create_plot(output):
     # Create a plot
     plt.grid(False)
     plt.gca().set_aspect('equal', adjustable='box')
-    plt.axis('off')
+    plt.xticks([])
+    plt.yticks([])
 
     # Add the H and P amino to the plot
-    plt.scatter(x_as_H, y_as_H, c = "red", zorder = 3, label = "H")
-    plt.scatter(x_as_P, y_as_P, c = "blue", zorder = 3, label = "P")
-    plt.scatter(x_as_C, y_as_C, c = "green", zorder = 3, label = "C")
+    plt.scatter(x_as_H, y_as_H, c = "red", zorder = 3, label = "H", s=100)
+    plt.scatter(x_as_P, y_as_P, c = "blue", zorder = 3, label = "P", s=100)
+    plt.scatter(x_as_C, y_as_C, c = "green", zorder = 3, label = "C", s=100)
 
     # Add the connections between the amino to the plot
     plt.plot(x_as, y_as, c = "black")
 
     # Add the H-bonds to the plot as stars
-    plt.scatter(x_stars, y_stars, c = "#E74C3C", zorder = 3, label = "-1", marker= "*")
+    plt.scatter(x_stars, y_stars, c = "black", label = "H-H and H-C bonds", marker= "*")
     # Add the C-bonds to the plot as plus
-    plt.scatter(x_plus, y_plus, c = "#E74C3C", zorder = 3, label = "-5", marker= "+")
+    plt.scatter(x_plus, y_plus, c = "black", label = "C-C bonds", marker= "+")
 
     # Show the plot
-    plt.legend()
-    plt.show()
+    plt.xlabel(f"Score: {count_score(stars, plus)}")
+    plt.subplots_adjust(right=0.7)
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.savefig(f"output/visualisation/{plot_name}", bbox_inches='tight')
 
 if __name__ == "__main__":
     # import the output file
     filename = sys.argv[1]
-    filepath = "output/" + filename
+    filepath = "output/" + filename + ".csv"
+    plot_name = sys.argv[2]
     output = get_output(filepath)
-    create_plot(output)
+    create_plot(output, plot_name)
 
    

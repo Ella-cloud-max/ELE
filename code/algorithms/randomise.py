@@ -15,7 +15,7 @@ def random_assignment_amino(protein, amino):
     amino.change_coordinates()
 
 def random_assignment_protein(protein):
-    while protein.check_viability() == False:
+    while protein.check_validity() == False:
         for amino in protein.aminos.values():
             random_assignment_amino(protein, amino)
 

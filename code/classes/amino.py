@@ -18,10 +18,20 @@ class Amino():
         return f"{self.i}, {self.soort}, {self.direction}, {self.coordinates}"
 
     def change_direction(self, direction):
+        """
+        Changes the direction of the amino.
+
+        in: direction is an int of {-2, -1, 1, 2}
+        out: self.direction is direction
+        """
+
         self.direction = direction
 
     def change_coordinates(self) -> None:
-        """ Change coordinates of amino based on the direction of the previous amino """
+        """
+        Changes coordinates of amino based on the direction of the previous amino.
+        """
+
         if self.previous_amino == None:
             return
         if abs(self.previous_amino.direction) == 1:
@@ -31,10 +41,14 @@ class Amino():
 
 
     def get_possibilities(self) -> list[int]:
-        """ Get a list of the possible directions an amino can go to """
+        """
+        Get a list of the possible directions an amino can go to.
+
+        out: a list of integers, a subset of [-2, -1, 1, 2]
+        """
+        
         available_options = set([-2, -1, 1, 2])
         if self.previous_amino == None:
-            available_options.remove(self.next_amino.direction * -1)
             options = list(available_options)
             return options
         previous = self.previous_amino
