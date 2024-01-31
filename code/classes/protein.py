@@ -6,8 +6,8 @@ from typing import Any, Union
 class Protein():
     def __init__(self, input_file: str) -> None:
         self.i_list: list[int] = []
-        self.aminos = self.make_aminos(input_file)
-        self.score = 0
+        self.aminos: dict[int, Any] = self.make_aminos(input_file)
+        self.score: int = 0
         self.size: int = len(self.i_list)
         
         for i in self.i_list:
@@ -39,7 +39,7 @@ class Protein():
             aminos[index].next_amino = aminos[index + 1]
         return aminos
 
-    def import_structure(self, file_directory: str) -> dict:
+    def import_structure(self, file_directory: str) -> dict[int, Any]:
         """
         Imports the amino acids from a file that contains a known solution
 
@@ -91,7 +91,7 @@ class Protein():
                 return amino
         return None
 
-    def check_validity(self, *amino) -> bool:
+    def check_validity(self, *amino: tuple[Amino]) -> bool:
         """
         Returns True if the input amino (or the last amino if there is no
         input) does not have the same coordinates as any of the previous
@@ -110,7 +110,7 @@ class Protein():
             check_amino = check_amino.previous_amino
         return True
 
-    def count_score(self, *amino) -> Union[bool, int]:
+    def count_score(self, *amino: tuple[Amino]) -> Union[bool, int]:
         """
         Returns the value of the stability score up to the inputted amino (or
         the last amino if no input argument) or returns False if the protein is

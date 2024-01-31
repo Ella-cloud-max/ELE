@@ -7,7 +7,7 @@ Created on Tue Jan 23 09:55:16 2024
 
 from code.classes.protein import Protein
 import random
-from code.algorithms import randomise
+from code.algorithms import random_plus
 from typing import Any
 from copy import deepcopy
 
@@ -196,7 +196,7 @@ def setup_hill_climb(protein_file_name: str, loop_amount: int) -> 'Protein':
     post: returns the best protein found, as a protein class object
     """
     protein = Protein(f"proteins/{protein_file_name}")
-    randomise.random_assignment_protein(protein)
+    random_plus.random_assignment_protein(protein)
     counter = 0
     best_protein = deepcopy(protein)
     while counter < loop_amount:
@@ -206,5 +206,5 @@ def setup_hill_climb(protein_file_name: str, loop_amount: int) -> 'Protein':
         counter += 1
         print(f"protein {counter}, score {current_solution_score}")
         if counter != loop_amount:
-            randomise.random_assignment_protein(protein)
+            random_plus.random_assignment_protein(protein)
     return best_protein

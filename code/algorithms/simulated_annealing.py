@@ -6,7 +6,7 @@ Created on Mon Jan 15 11:21:32 2024
 """
 
 from code.classes.protein import Protein
-from code.algorithms import randomise
+from code.algorithms import random_plus
 from hill_climb import create_options, try_direction
 from math import e as e
 import random
@@ -90,7 +90,7 @@ def setup_simulated_annealing(protein_file_name: str, loop_amount: int,
     post: returns a protein class object
     """
     protein = Protein(f"proteins/{protein_file_name}")
-    randomise.random_assignment_protein(protein)
+    random_plus.random_assignment_protein(protein)
     counter = 0
     best_protein = deepcopy(protein)
     while counter < loop_amount:
@@ -102,7 +102,7 @@ def setup_simulated_annealing(protein_file_name: str, loop_amount: int,
         counter += 1
         print(f"protein {counter}, score {current_solution_score}")
         if counter != loop_amount:
-            randomise.random_assignment_protein(protein)
+            random_plus.random_assignment_protein(protein)
     id_list, directions_list, mutation_list = create_options(best_protein)
     score_list = []
     protein_list = []
