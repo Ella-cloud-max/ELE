@@ -1,6 +1,10 @@
 from code.classes.protein import Protein
+<<<<<<< HEAD
+from code.algorithms import randomise
+=======
 from code.algorithms import random_plus
 from hill_climb import create_options, try_direction
+>>>>>>> 4e3aeb0f34808e59ccad526df2b42b98174638f7
 from math import e as e
 import random
 from copy import deepcopy
@@ -71,9 +75,9 @@ def simulated_annealing(protein: 'Protein', start_temperature: int,
     return best_solution
 
 
-def setup_simulated_annealing(protein_file_name: str, loop_amount: int,
-                              start_temperature: int, cooling_rate_interval:
-                                  int, no_progress_limit: int) -> 'Protein':
+def setup_simulated_annealing(protein: 'Protein', start_temperature: int,
+                              cooling_rate_interval: int,
+                              no_progress_limit: int) -> 'Protein':
     """
     Initialise simulated annealing, create a random structure of
     the loaded protein and try to improve the output of simulated annealing
@@ -86,7 +90,7 @@ def setup_simulated_annealing(protein_file_name: str, loop_amount: int,
     random_plus.random_assignment_protein(protein)
     counter = 0
     best_protein = deepcopy(protein)
-    while counter < loop_amount:
+    while True:
         current_solution, current_solution_score = simulated_annealing(
                 protein, start_temperature, cooling_rate_interval,
                 no_progress_limit)
@@ -94,8 +98,7 @@ def setup_simulated_annealing(protein_file_name: str, loop_amount: int,
             best_protein = deepcopy(current_solution)
         counter += 1
         print(f"protein {counter}, score {current_solution_score}")
-        if counter != loop_amount:
-            random_plus.random_assignment_protein(protein)
+        random_plus.random_assignment_protein(protein)
     id_list, directions_list, mutation_list = create_options(best_protein)
     score_list = []
     protein_list = []
