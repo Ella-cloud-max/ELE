@@ -93,10 +93,10 @@ if __name__ == "__main__":
         loop_amount = 1
         test_protein = hill_climb_func(input_file, loop_amount)
     elif algorithm == "simulated_annealing":
-        loop_amount = int(sys.argv[4])
-        start_temperature = int(sys.argv[5])
-        cooling_rate_interval = int(sys.argv[6])
-        no_progress_limit = int(sys.argv[7])
+        loop_amount = 1
+        start_temperature = 30
+        cooling_rate_interval = 100
+        no_progress_limit = 200
         test_protein = simulated_annealing_func(input_file, loop_amount,
                                     start_temperature, cooling_rate_interval,
                                     no_progress_limit)

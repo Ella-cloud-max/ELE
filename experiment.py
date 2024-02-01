@@ -16,7 +16,7 @@ min_score = 0
 
 while time.time() - start < 100:
     print(f"run: {n_runs}")
-    result = subprocess.Popen(["timeout", "10", "python3.11", "main.py", algorithm, f"{input_protein}", "experiment"], stdout=subprocess.PIPE)
+    result = subprocess.Popen(["timeout", "10", "python3", "main.py", algorithm, f"{input_protein}", "experiment"], stdout=subprocess.PIPE)
     output, _ = result.communicate()
 
     if output == b'':
