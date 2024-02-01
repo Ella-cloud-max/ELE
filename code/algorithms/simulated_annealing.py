@@ -48,7 +48,7 @@ def simulated_annealing(protein: 'Protein', start_temperature: int,
                 if current_score < best_solution[1]:
                     best_solution = (deepcopy(current_protein), current_score)
                 break
-            elif trial[0] and random.random() > pow(e, x):
+            elif trial[0] and random.random() < pow(e, x):
                 current_score = trial[1]
                 current_protein = trial[2]
 
