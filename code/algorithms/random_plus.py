@@ -15,7 +15,7 @@ def random_assignment_amino(amino: Amino) -> None:
     amino.change_direction(random.choice(directions))
     amino.change_coordinates()
 
-def random_assignment_protein(protein: Protein) -> None:
+def random_assignment_protein(protein: 'Protein') -> None:
     """
     Applies function random_assignment_amino to every amino in a protein class
     object.

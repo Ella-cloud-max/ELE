@@ -71,9 +71,9 @@ def simulated_annealing(protein: 'Protein', start_temperature: int,
     return best_solution
 
 
-def setup_simulated_annealing(protein: 'Protein', start_temperature: int,
-                              cooling_rate_interval: int,
-                              no_progress_limit: int) -> 'Protein':
+def setup_simulated_annealing(protein: 'Protein', loop_amount: int, 
+                            start_temperature: int, cooling_rate_interval: int,
+                            no_progress_limit: int) -> 'Protein':
     """
     Initialise simulated annealing, create a random structure of
     the loaded protein and try to improve the output of simulated annealing
@@ -82,11 +82,10 @@ def setup_simulated_annealing(protein: 'Protein', start_temperature: int,
         cooling rateinterval and limit for the having no progress
     post: returns a protein class object
     """
-    protein = Protein(f"proteins/{protein_file_name}")
     random_plus.random_assignment_protein(protein)
     counter = 0
     best_protein = deepcopy(protein)
-    while True:
+    while loop_amount < counter:
         current_solution, current_solution_score = simulated_annealing(
                 protein, start_temperature, cooling_rate_interval,
                 no_progress_limit)
@@ -94,7 +93,8 @@ def setup_simulated_annealing(protein: 'Protein', start_temperature: int,
             best_protein = deepcopy(current_solution)
         counter += 1
         print(f"protein {counter}, score {current_solution_score}")
-        random_plus.random_assignment_protein(protein)
+        while loop_amount != counter:
+            random_plus.random_assignment_protein(protein)
     id_list, directions_list, mutation_list = create_options(best_protein)
     score_list = []
     protein_list = []
