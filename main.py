@@ -78,6 +78,7 @@ if __name__ == "__main__":
     
     algorithm = f"{sys.argv[1]}"
     input_file = f"proteins/{sys.argv[2]}.csv"
+    loop_amount = 20
     
     if algorithm == "baseline":
         test_protein = baseline_func(input_file)
@@ -90,10 +91,8 @@ if __name__ == "__main__":
     elif algorithm == "breadth":
         test_protein = depth_first_func(input_file)
     elif algorithm == "hill_climb":
-        loop_amount = 1
         test_protein = hill_climb_func(input_file, loop_amount)
     elif algorithm == "simulated_annealing":
-        loop_amount = 1
         start_temperature = 30
         cooling_rate_interval = 100
         no_progress_limit = 200

@@ -36,8 +36,8 @@ Voor de algoritmes kan gekozen worden uit de volgende opties:
 - greedy
 - depth  
 - breadth
-- hill climbing
-- simulated annealing
+- hill_climb
+- simulated_annealing
 
 
 De input files zijn csv bestanden die zich in het mapje proteins bevinden. \
@@ -54,7 +54,7 @@ Er zijn twee manieren om het opgevouwen proteïne te visualiseren. Het proteine 
 Om de visualisatie in de terminal te printen kan het onderstaand command gebruiken. Het output bestand moet in het csv formaat opgeslagen liggen in de output folder.
 
 ```
-python code/visualisation/visualisatie.py example_output
+python code/visualisation/visualisation.py example_output
 ```
 
 <img src="/docs/terminal_visualisation.png" height="100px">

@@ -12,7 +12,7 @@ start = time.time()
 n_runs = 0
 list_scores = []
 best_protein = None
-min_score = 0
+min_score = 1
 
 while time.time() - start < 100:
     print(f"run: {n_runs}")
@@ -20,6 +20,7 @@ while time.time() - start < 100:
     output, _ = result.communicate()
 
     if output == b'':
+        print("No output")
         n_runs += 1
         continue
 
@@ -32,7 +33,10 @@ while time.time() - start < 100:
 
     n_runs += 1
 
-best_protein.print_output(f"experiment/experiment_{output_file}.csv")
-visualisation.print_folded_protein(f"output/experiment/experiment_{output_file}.csv")
+if best_protein == None:
+    print("No Results")
+else:
+    best_protein.print_output(f"experiment/experiment_{output_file}.csv")
+    visualisation.print_folded_protein(f"output/experiment/experiment_{output_file}.csv")
 
-histogram.histogram(list_scores, output_file)
+    histogram.histogram(list_scores, output_file)
