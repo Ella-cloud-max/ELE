@@ -64,19 +64,20 @@ def hill_climb_func(input_file: str, loop_amount: int) -> 'protein':
     current_protein = hill_climb.setup_hill_climb(test_protein, loop_amount)
     return current_protein
 
-def simulated_annealing_func(input_file: str, temperature: int,
+def simulated_annealing_func(input_file: str, loop_amount: int, temperature: int,
                              cooling_rate_interval: int,
                              no_progress_limit: int) -> 'protein':
     # ------------- simulated annealing algorithm -------------
     test_protein = protein.Protein(input_file)
     current_protein = simulated_annealing.setup_simulated_annealing(
-        test_protein, temperature, cooling_rate_interval, no_progress_limit)
+        test_protein, loop_amount, temperature, cooling_rate_interval,
+        no_progress_limit)
     return current_protein
 
 if __name__ == "__main__":
     
     algorithm = f"{sys.argv[1]}"
-    input_file = f"proteins/{sys.argv[2]}.csv"    
+    input_file = f"proteins/{sys.argv[2]}.csv"
     
     if algorithm == "baseline":
         test_protein = baseline_func(input_file)

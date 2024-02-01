@@ -197,5 +197,6 @@ def setup_hill_climb(protein: 'Protein', loop_amount: int) -> 'Protein':
         if current_solution_score < best_protein.count_score():
             best_protein = deepcopy(current_solution)
         counter += 1
-        random_plus.random_assignment_protein(protein)
+        while loop_amount != counter:
+            random_plus.random_assignment_protein(protein)
     return best_protein
